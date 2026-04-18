@@ -137,28 +137,19 @@
             }
         }
 
-        /* Máscara de transparência que desbota as bordas laterais e superior/inferior */
+        /* Máscara de fusão: gradiente radial elíptico — desbota todas as bordas ao mesmo tempo,
+           sem depender de mask-composite (que quebra em vários browsers). */
         .banner-fade {
-            /* Gradiente horizontal: laterais transparentes, centro opaco */
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-            
-            /* Gradiente vertical: topo e base levemente transparentes (apenas para suavizar) */
-            /* Combinamos com máscara composta para manter ambos os efeitos */
-            -webkit-mask-composite: source-in;
-            mask-composite: intersect;
-        }
-
-        /* Para navegadores que suportam múltiplas máscaras, usamos duas camadas */
-        .banner-fade {
-            -webkit-mask-image: 
-                linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%),
-                linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
-            mask-image: 
-                linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%),
-                linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
-            -webkit-mask-composite: source-in;
-            mask-composite: intersect;
+            -webkit-mask-image: radial-gradient(
+                ellipse 75% 80% at 50% 50%,
+                black 30%,
+                transparent 100%
+            );
+            mask-image: radial-gradient(
+                ellipse 75% 80% at 50% 50%,
+                black 30%,
+                transparent 100%
+            );
         }
 
         /* =====================================================
