@@ -42,7 +42,6 @@
             position: relative;
             padding-top: 5rem;
             padding-bottom: 5rem;
-            isolation: isolate;
         }
         @media (min-width: 768px) {
             section { padding-top: 8rem; padding-bottom: 8rem; }
@@ -124,17 +123,16 @@
             object-fit: contain;
             border: none;
             box-shadow: none;
-            /*
-              Gradiente radial: ÚNICA máscara que funciona em todos os browsers
-              sem precisar de mask-composite.
-              Desbota do centro para todas as bordas ao mesmo tempo.
-              Ajuste os % para controlar quanto da imagem fica visível:
-              - 1º valor (55%): onde começa a desbotar
-              - 2º valor (transparent 90%): onde a imagem some completamente
-            */
-            -webkit-mask-image: radial-gradient(ellipse 80% 85% at 50% 50%, black 0%, black 45%, transparent 80%);
-            mask-image:          radial-gradient(ellipse 80% 85% at 50% 50%, black 0%, black 45%, transparent 80%);
+            /* screen: os negros da imagem somem, só as luzes e cores emergem —
+               a imagem parece emanar do fundo em vez de ficar colada em cima */
+            mix-blend-mode: screen;
+            filter: brightness(1.2) contrast(1.05);
+            -webkit-mask-image: radial-gradient(ellipse 85% 88% at 50% 50%, black 0%, black 40%, transparent 78%);
+            mask-image:          radial-gradient(ellipse 85% 88% at 50% 50%, black 0%, black 40%, transparent 78%);
         }
+
+        /* Remove isolation das sections para o mix-blend-mode funcionar */
+        section { isolation: auto !important; }
 
         .section-banner-container { margin-bottom: 2rem; }
 
