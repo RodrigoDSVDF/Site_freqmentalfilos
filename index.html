@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -123,7 +124,7 @@
         }
 
         /* =====================================================
-           BANNERS COM FUSÃO TOTAL (VERSÃO ORIGINAL RESTAURADA)
+           BANNERS COM FUSÃO TOTAL AO FUNDO PRETO (TAMANHO AUMENTADO)
         ===================================================== */
         .top-banner-container,
         .section-banner-container {
@@ -141,9 +142,9 @@
             display: block;
             margin: 0 auto;
             width: 100%;
-            max-width: 800px;  /* Ajuste para desktop - tamanho de criativo */
+            max-width: 1200px;      /* Aumentado de 1000px para 1200px */
             height: auto;
-            max-height: 300px;  /* Limita altura em desktop */
+            max-height: 350px;       /* Aumentado para dar mais presença */
             object-fit: contain;
             
             /* Máscara linear em todas as direções: some nas bordas e na base */
@@ -157,8 +158,8 @@
             linear-gradient(
                 to right,
                 transparent 0%,
-                black 15%,
-                black 85%,
+                black 10%,
+                black 90%,
                 transparent 100%
             );
             mask-composite: intersect;
@@ -172,8 +173,8 @@
             linear-gradient(
                 to right,
                 transparent 0%,
-                black 15%,
-                black 85%,
+                black 10%,
+                black 90%,
                 transparent 100%
             );
             -webkit-mask-composite: source-in;
@@ -208,11 +209,22 @@
             .top-banner-container img,
             .section-banner-container img {
                 max-width: 100%;
-                max-height: 200px;
+                max-height: 220px;    /* Aumentado levemente para mobile */
             }
             .top-banner-container::after,
             .section-banner-container::after {
                 height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-banner-container img,
+            .section-banner-container img {
+                max-height: 180px;
+            }
+            .top-banner-container::after,
+            .section-banner-container::after {
+                height: 60px;
             }
         }
 
@@ -815,7 +827,6 @@
     (function() {
         "use strict";
         
-        // Prevenir scroll horizontal
         function fixHorizontalScroll() {
             document.body.style.overflowX = 'hidden';
             document.documentElement.style.overflowX = 'hidden';
@@ -828,7 +839,6 @@
 
         const isMobile = 'ontouchstart' in window || window.innerWidth <= 768;
 
-        /* INTERSECTION OBSERVER */
         const revealClasses = [
             '.reveal-up', '.reveal-left', '.reveal-right',
             '.reveal-diag-left', '.reveal-diag-right', '.reveal-scale'
@@ -844,7 +854,6 @@
         }, { threshold: 0.12, rootMargin: "0px 0px -30px 0px" });
         revealEls.forEach(el => revealObserver.observe(el));
 
-        /* PARALLAX VERTICAL */
         if (!isMobile) {
             const parallaxImages = document.querySelectorAll('.parallax-img');
             function updateParallax() {
@@ -863,7 +872,6 @@
             updateParallax();
         }
 
-        /* PARALLAX HORIZONTAL CARDS */
         if (!isMobile) {
             const cards = document.querySelectorAll('.scroll-slide');
             const offsets = [-14, 0, 14];
@@ -882,7 +890,6 @@
             updateCards();
         }
 
-        /* BLOBS PARALLAX */
         if (!isMobile) {
             const blobs = document.querySelectorAll('.float-slow, .float-medium, .float-orbit');
             window.addEventListener('scroll', () => {
@@ -894,7 +901,6 @@
             }, { passive: true });
         }
 
-        /* ANCHOR LINKS */
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const id = this.getAttribute('href');
@@ -907,7 +913,6 @@
             });
         });
 
-        /* MAGNETIC HOVER */
         if (!isMobile) {
             document.querySelectorAll('a[href*="freqmentalchat"], a[href*="pdf"]').forEach(btn => {
                 btn.addEventListener('mousemove', (e) => {
