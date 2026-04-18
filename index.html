@@ -7,22 +7,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <style>
+        /* Configurações Globais */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { 
             overflow-x: hidden; 
             width: 100%; 
             position: relative;
             max-width: 100vw;
+            background-color: #0a0a0a;
         }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
             color: #e5e5e5;
             scroll-behavior: smooth;
         }
         .serif { font-family: 'Playfair Display', serif; }
         .text-humanized { line-height: 1.8; letter-spacing: -0.01em; }
 
+        /* Variáveis de Paleta */
         :root {
             --dark-1: #0a0a0a;
             --dark-2: #111111;
@@ -33,83 +35,93 @@
         }
 
         /* =====================================================
-           SISTEMA DE FUSÃO TOTAL DE IMAGENS (4 LADOS)
+           SISTEMA DE FUSÃO TOTAL (4 LADOS)
+           Este sistema elimina qualquer corte reto nas imagens
         ===================================================== */
-        .banner-fusion-box {
+        .banner-fusion-container {
             position: relative;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: transparent;
-            z-index: 2;
-            padding: 4rem 1rem; /* Espaço para o desfoque não bater na borda da seção */
+            z-index: 10;
+            padding: 5rem 1.5rem; /* Margem de segurança para o desfoque */
             overflow: visible;
         }
 
-        .banner-fusion-box img {
+        .banner-fusion-container img {
             display: block;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             height: auto;
-            max-height: 70vh;
+            max-height: 75vh;
             object-fit: contain;
             
-            /* MÁSCARA RADIAL 360º: Suaviza os 4 lados simultaneamente */
+            /* Máscara Radial 360º: Suaviza as 4 bordas simultaneamente */
             -webkit-mask-image: radial-gradient(
-                ellipse 70% 70% at 50% 50%, 
+                ellipse 75% 75% at 50% 50%, 
                 black 0%, 
-                rgba(0,0,0,0.8) 40%, 
-                transparent 95%
+                rgba(0,0,0,0.9) 45%, 
+                transparent 98%
             );
             mask-image: radial-gradient(
-                ellipse 70% 70% at 50% 50%, 
+                ellipse 75% 75% at 50% 50%, 
                 black 0%, 
-                rgba(0,0,0,0.8) 40%, 
-                transparent 95%
+                rgba(0,0,0,0.9) 45%, 
+                transparent 98%
             );
             
-            filter: brightness(0.9);
-            opacity: 0.95;
+            filter: brightness(0.9) contrast(1.05);
+            opacity: 0.98;
+            will-change: transform;
         }
 
-        /* Névoa de proteção nos 4 cantos para garantir 0% de linhas retas */
-        .banner-fusion-box::before,
-        .banner-fusion-box::after {
+        /* Névoa de Proteção nos 4 Lados */
+        .banner-fusion-container::before,
+        .banner-fusion-container::after {
             content: "";
             position: absolute;
             inset: 0;
             pointer-events: none;
-            z-index: 3;
+            z-index: 11;
         }
 
-        /* Gradiente vertical (Top e Bottom) */
-        .banner-fusion-box::before {
-            background: linear-gradient(to bottom, var(--current-bg) 0%, transparent 15%, transparent 85%, var(--current-bg) 100%);
+        /* Gradiente de Absorção Vertical (Top/Bottom) */
+        .banner-fusion-container::before {
+            background: linear-gradient(to bottom, 
+                var(--current-bg) 0%, 
+                transparent 20%, 
+                transparent 80%, 
+                var(--current-bg) 100%);
         }
 
-        /* Gradiente horizontal (Left e Right) */
-        .banner-fusion-box::after {
-            background: linear-gradient(to right, var(--current-bg) 0%, transparent 10%, transparent 90%, var(--current-bg) 100%);
+        /* Gradiente de Absorção Horizontal (Left/Right) */
+        .banner-fusion-container::after {
+            background: linear-gradient(to right, 
+                var(--current-bg) 0%, 
+                transparent 15%, 
+                transparent 85%, 
+                var(--current-bg) 100%);
         }
 
-        /* Variáveis de contexto para cores de fundo */
+        /* Atribuição de cores por contexto */
         .bg-dark-1 { --current-bg: var(--dark-1); background-color: var(--dark-1); }
         .bg-dark-2 { --current-bg: var(--dark-2); background-color: var(--dark-2); }
         .bg-dark-3 { --current-bg: var(--dark-3); background-color: var(--dark-3); }
         .bg-dark-4 { --current-bg: var(--dark-4); background-color: var(--dark-4); }
+        .bg-papiro { --current-bg: var(--papiro); background-color: var(--papiro); color: #1a1a1a; }
 
         @media (max-width: 768px) {
-            .banner-fusion-box { padding: 2rem 0.5rem; }
-            .banner-fusion-box img { 
+            .banner-fusion-container { padding: 3rem 0.75rem; }
+            .banner-fusion-container img { 
                 max-height: 400px;
-                -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 98%);
-                mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 98%);
+                -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 20%, transparent 100%);
+                mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 20%, transparent 100%);
             }
         }
 
         /* =====================================================
-           ESTILOS GERAIS DE SEÇÃO
+           ESTRUTURA DE SEÇÕES
         ===================================================== */
         section {
             position: relative;
@@ -118,176 +130,252 @@
             isolation: isolate;
         }
 
-        .fade-top::before, .fade-bottom::after {
-            content: ""; position: absolute; left: 0; width: 100%; height: var(--fade-h); pointer-events: none; z-index: 5;
+        /* Fade de transição entre blocos */
+        .fade-edge-top::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: var(--fade-h); 
+            pointer-events: none; z-index: 20;
         }
-        .fade-top::before { top: 0; }
-        .fade-bottom::after { bottom: 0; }
+        .fade-edge-bottom::after {
+            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: var(--fade-h); 
+            pointer-events: none; z-index: 20;
+        }
 
-        /* Gradientes de transição entre seções */
-        #golem.fade-top::before { background: linear-gradient(to bottom, var(--dark-1), transparent); }
-        #golem.fade-bottom::after { background: linear-gradient(to top, var(--papiro), transparent); }
-        
-        #filosofia.fade-top::before { background: linear-gradient(to bottom, var(--papiro), transparent); }
-        #filosofia.fade-bottom::after { background: linear-gradient(to top, var(--papiro), transparent); }
+        #golem.fade-edge-top::before { background: linear-gradient(to bottom, var(--dark-1), transparent); }
+        #golem.fade-edge-bottom::after { background: linear-gradient(to top, var(--papiro), transparent); }
+        #filosofia.fade-edge-top::before { background: linear-gradient(to bottom, var(--papiro), transparent); }
+        #filosofia.fade-edge-bottom::after { background: linear-gradient(to top, var(--papiro), transparent); }
 
-        .bg-papiro { background-color: var(--papiro); color: #1a1a1a; }
-
-        /* Estilo dos cards e imagens */
+        /* Estilos de Card e Imagens */
         .image-box {
             overflow: hidden;
-            border-radius: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
             background: #111;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .image-box:hover { transform: translateY(-10px) rotate(0.5deg); }
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        .reveal-up { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .reveal-up.visible { opacity: 1; transform: translateY(0); }
+        /* Animações */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .golden-button {
-            background: linear-gradient(145deg, #F5E7A3, #C9A23D);
+        /* Botão Dourado Premium */
+        .golden-btn {
+            background: linear-gradient(135deg, #F5E7A3 0%, #E2C068 50%, #B8862D 100%);
             color: #000;
             font-weight: 800;
-            padding: 1.5rem 3rem;
-            border-radius: 99px;
+            padding: 1.25rem 3rem;
+            border-radius: 100px;
             display: inline-block;
-            transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(201, 162, 61, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 35px rgba(184, 134, 45, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .golden-button:hover { transform: scale(1.05); filter: brightness(1.1); }
+        .golden-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 20px 45px rgba(184, 134, 45, 0.6);
+            filter: brightness(1.1);
+        }
+
+        /* Utilitários */
+        .grain {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
     </style>
 </head>
-<body class="bg-dark-1">
+<body class="antialiased">
 
-    <!-- HERO / TOP -->
+    <!-- 1. TOPO / ARCO -->
     <div class="bg-dark-1">
-        <div class="banner-fusion-box">
-            <img src="arco.png" alt="Arco - Simbolo de Tensão e Lançamento">
+        <div class="banner-fusion-container">
+            <img src="arco.png" alt="Simbolismo do Arco e Tensão">
         </div>
     </div>
 
-    <header class="min-h-[80vh] flex items-center px-6 relative bg-cover bg-center" style="background-image: url('./hero-leao.jpg');">
-        <div class="absolute inset-0 bg-black/70 z-1"></div>
+    <!-- 2. HERO SECTION -->
+    <header class="min-h-[90vh] flex items-center px-6 relative bg-cover bg-center" style="background-image: url('./hero-leao.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-1"></div>
         <div class="max-w-7xl mx-auto w-full relative z-10">
-            <div class="max-w-3xl space-y-6">
-                <h1 class="text-5xl md:text-8xl serif reveal-up">O silêncio que precede o seu <span class="italic">rugido</span>.</h1>
-                <p class="text-xl md:text-2xl opacity-90 reveal-up delay-100">A frequência da sua mente determina a altitude da sua vida. Saia do espectador e torne-se o autor.</p>
-                <div class="pt-6 reveal-up delay-200">
-                    <a href="https://freqmentalchat.nexus-manual.com.br" class="golden-button uppercase tracking-widest text-sm">Assumir o Controle</a>
+            <div class="max-w-2xl space-y-8">
+                <h1 class="text-5xl md:text-8xl serif leading-[1.1] reveal">O silêncio que precede o seu <span class="italic text-[#E2C068]">rugido</span>.</h1>
+                <p class="text-xl md:text-2xl opacity-90 text-humanized reveal">A desmotivação é apenas uma frequência desalinhada. Recupere a sua potência mental hoje.</p>
+                <div class="pt-6 reveal">
+                    <a href="https://freqmentalchat.nexus-manual.com.br" target="_blank" class="golden-btn">Assumir o Controle</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- SEÇÃO GOLEM -->
-    <section id="golem" class="bg-dark-2 fade-top fade-bottom">
-        <div class="banner-fusion-box">
-            <img src="filos01.png" alt="Conceito Filosofico 01">
+    <!-- 3. SEÇÃO GOLEM -->
+    <section id="golem" class="bg-dark-2 fade-edge-top fade-edge-bottom">
+        <div class="grain"></div>
+        <div class="banner-fusion-container">
+            <img src="filos01.png" alt="Arquétipo Filosófico 01">
         </div>
         
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center mt-12">
-            <div class="image-box aspect-square md:order-2">
-                <img src="./ebook-golem.png" alt="Ebook Efeito Golem">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center mt-12 relative z-20">
+            <div class="image-box aspect-[4/5] md:order-2 reveal">
+                <img src="./ebook-golem.png" alt="Guia Efeito Golem">
             </div>
-            <div class="space-y-6 md:order-1">
-                <h2 class="text-4xl md:text-6xl serif">O Peso Invisível do <span class="italic">Efeito Golem</span>.</h2>
-                <p class="text-lg opacity-80">As expectativas negativas dos outros criaram muros invisíveis ao seu redor. Baixe o guia e aprenda a derrubá-los.</p>
-                <a href="./glm.pdf" class="inline-flex items-center gap-2 font-bold uppercase tracking-widest text-sm border-b-2 border-white pb-2 hover:opacity-70 transition-all">Baixar Guia PDF</a>
+            <div class="space-y-8 md:order-1">
+                <span class="text-[#E2C068] text-xs font-bold tracking-[0.3em] uppercase block reveal">Recurso Exclusivo</span>
+                <h2 class="text-4xl md:text-6xl serif leading-tight reveal">O Peso Invisível do <span class="italic underline decoration-1 decoration-[#E2C068]/30">Efeito Golem</span>.</h2>
+                <p class="text-lg opacity-80 text-humanized reveal">As vozes alheias criaram uma armadura de chumbo sobre a sua vontade. Este guia ensina a transmutar esse peso em impulso.</p>
+                <div class="reveal">
+                    <a href="./glm.pdf" target="_blank" class="inline-flex items-center gap-3 font-bold uppercase tracking-widest text-xs border-b border-[#E2C068] pb-3 text-[#E2C068] hover:text-white hover:border-white transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Baixar Manual Gratuito (PDF)
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- SEÇÃO PAPIRO (ESTAGNADO) -->
+    <!-- 4. SEÇÃO PAPIRO (CONFLITO) -->
     <section class="bg-papiro">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-            <div class="space-y-6">
-                <h2 class="text-4xl md:text-6xl serif">Por que você ainda se sente <span class="italic">estagnado</span>?</h2>
-                <p class="text-lg">A estagnação não é falta de capacidade, é um desalinhamento de frequência. Você está operando em um canal de baixa energia.</p>
+            <div class="space-y-8 reveal">
+                <h2 class="text-4xl md:text-6xl serif leading-tight">Por que você ainda se sente <span class="italic">estagnado</span>?</h2>
+                <div class="text-lg space-y-4 opacity-90 text-humanized">
+                    <p>A estagnação não é falta de inteligência ou esforço. É o resultado de operar numa frequência de sobrevivência enquanto a sua alma pede criação.</p>
+                    <p>O método "Frequência Mental Poderosa" foi desenhado para quem sente que está a travar o motor enquanto acelera.</p>
+                </div>
             </div>
-            <div class="image-box h-80 md:h-[500px]">
-                <img src="./origem-conflito.jpg" alt="Conflito Interno">
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO FILOSOFIA -->
-    <section id="filosofia" class="bg-dark-4 fade-top fade-bottom">
-        <div class="banner-fusion-box">
-            <img src="filos02.png" alt="Conceito Filosofico 02">
-        </div>
-
-        <div class="max-w-7xl mx-auto px-6 mt-12 text-center">
-            <div class="max-w-3xl mx-auto space-y-8">
-                <h2 class="text-4xl md:text-6xl serif italic">"O desânimo é o grito de uma alma que possui um potencial maior."</h2>
-                <p class="text-xl opacity-80">Você não nasceu para sobreviver. Você nasceu para manifestar. A frequência mental correta é a chave que abre essa porta.</p>
+            <div class="image-box h-[400px] md:h-[600px] reveal">
+                <img src="./origem-conflito.jpg" alt="Conflito de Vontades">
             </div>
         </div>
     </section>
 
-    <!-- MÉTODO -->
+    <!-- 5. SEÇÃO FILOSOFIA 02 -->
+    <section id="filosofia" class="bg-dark-4 fade-edge-top fade-edge-bottom">
+        <div class="grain"></div>
+        <div class="banner-fusion-container">
+            <img src="filos02.png" alt="Arquétipo Filosófico 02">
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 mt-16 text-center space-y-10 relative z-20">
+            <h2 class="text-3xl md:text-6xl serif italic leading-snug reveal">"O desânimo é o grito de uma alma que possui um potencial maior do que a rotina que a aprisiona."</h2>
+            <div class="h-px w-24 bg-[#E2C068]/30 mx-auto reveal"></div>
+            <p class="text-xl opacity-75 leading-relaxed reveal">Não aceite a mediocridade como um destino. A sua biologia foi feita para a expansão, não para o encolhimento.</p>
+        </div>
+    </section>
+
+    <!-- 6. PILARES DO MÉTODO -->
     <section class="bg-papiro">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="p-8 bg-black/5 rounded-3xl border border-black/10">
-                    <h3 class="text-2xl font-bold mb-4">Purificação</h3>
-                    <p class="opacity-80">Limpamos os ruídos externos que impedem você de ouvir sua própria intuição.</p>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="space-y-5 p-10 bg-black/5 rounded-[2rem] border border-black/5 reveal">
+                    <span class="text-5xl serif opacity-20 block">01</span>
+                    <h3 class="text-2xl font-bold serif">Purificação</h3>
+                    <p class="opacity-75">Limpeza total de ruídos mentais, traumas e influências externas que drenam a sua energia vital.</p>
                 </div>
-                <div class="p-8 bg-black/5 rounded-3xl border border-black/10">
-                    <h3 class="text-2xl font-bold mb-4">Sintonização</h3>
-                    <p class="opacity-80">Ajustamos seu estado vibracional para o foco e para a ação decisiva.</p>
+                <div class="space-y-5 p-10 bg-black/5 rounded-[2rem] border border-black/5 reveal" style="transition-delay: 0.2s;">
+                    <span class="text-5xl serif opacity-20 block">02</span>
+                    <h3 class="text-2xl font-bold serif">Sintonização</h3>
+                    <p class="opacity-75">Ajuste fino da percepção e foco. Alinhar o seu estado interno com os seus maiores objetivos.</p>
                 </div>
-                <div class="p-8 bg-black/5 rounded-3xl border border-black/10">
-                    <h3 class="text-2xl font-bold mb-4">Manifestação</h3>
-                    <p class="opacity-80">Onde o rugido se torna realidade e seus projetos ganham vida no mundo.</p>
+                <div class="space-y-5 p-10 bg-black/5 rounded-[2rem] border border-black/5 reveal" style="transition-delay: 0.4s;">
+                    <span class="text-5xl serif opacity-20 block">03</span>
+                    <h3 class="text-2xl font-bold serif">Manifestação</h3>
+                    <p class="opacity-75">Transformação da clareza em ação. O rugido que deixa de ser interno para moldar a sua realidade física.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- TRANSMUTAÇÃO -->
+    <!-- 7. FILOSOFIA 03 / TRANSMUTAÇÃO -->
     <section class="bg-dark-3">
-        <div class="banner-fusion-box">
-            <img src="filos03.png" alt="Conceito Filosofico 03">
+        <div class="banner-fusion-container">
+            <img src="filos03.png" alt="Arquétipo Filosófico 03">
         </div>
-        <div class="max-w-5xl mx-auto px-6 text-center mt-12 space-y-6">
-            <h2 class="text-4xl md:text-7xl serif">A Hora da <span class="italic">Transmutação</span></h2>
-            <p class="text-xl opacity-70">A dor do crescimento é passageira, mas a dor do arrependimento por nunca ter tentado é eterna.</p>
-        </div>
-    </section>
-
-    <!-- CHECKOUT -->
-    <section id="obra" class="bg-dark-1">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-            <div class="image-box shadow-[0_0_100px_rgba(201,162,61,0.2)]">
-                <img src="./mockup-principal.png" alt="Frequência Mental Poderosa">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center mt-12 relative z-20">
+            <div class="image-box h-[500px] reveal">
+                <img src="./foco-absoluto.png" alt="Foco Mental Absoluto">
             </div>
             <div class="space-y-8">
-                <h2 class="text-5xl md:text-7xl serif leading-tight">Domine sua <br><span class="italic">Frequência</span>.</h2>
-                <p class="text-xl opacity-80">Adquira o e-book completo e comece sua jornada de despertar agora mesmo.</p>
-                <div class="space-y-4">
-                    <a href="https://freqmentalchat.nexus-manual.com.br" class="golden-button w-full text-center text-lg">Quero Despertar Meu Rugido</a>
-                    <p class="text-center text-xs opacity-50 uppercase tracking-widest">Garantia Incondicional de 7 Dias</p>
+                <h2 class="text-4xl md:text-7xl serif reveal">O Momento da <span class="italic">Transmutação</span>.</h2>
+                <p class="text-lg opacity-85 text-humanized reveal">A dor de continuar igual deve tornar-se maior do que o medo de mudar. Quando esse ponto é atingido, a transmutação é inevitável.</p>
+                <div class="pt-4 reveal">
+                    <a href="https://freqmentalchat.nexus-manual.com.br" target="_blank" class="golden-btn">Iniciar Processo</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 border-t border-white/10 text-center opacity-30 text-xs tracking-[0.3em]">
-        © 2026 FREQUÊNCIA MENTAL • O DESPERTAR É UMA ESCOLHA
+    <!-- 8. FILOSOFIA 04 / IMAGINE -->
+    <section class="bg-papiro">
+        <div class="banner-fusion-container">
+            <img src="filos04.jpg" alt="Arquétipo Filosófico 04">
+        </div>
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center mt-12">
+            <div class="space-y-8 reveal">
+                <h2 class="text-4xl md:text-6xl serif italic">"Imagine acordar com clareza absoluta de propósito."</h2>
+                <p class="text-xl opacity-90 leading-relaxed text-humanized">Isso não é um devaneio. É o estado natural de uma mente que não está em guerra consigo mesma. Recupere a sua paz e a sua força num só movimento.</p>
+            </div>
+            <div class="image-box h-[450px] reveal">
+                <img src="./feliz.png" alt="Estado de Realização">
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. CHECKOUT FINAL -->
+    <section id="obra" class="bg-dark-1 py-24">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+            <div class="relative reveal">
+                <div class="image-box shadow-[0_0_120px_rgba(226,192,104,0.15)] transform -rotate-2">
+                    <img src="./mockup-principal.png" alt="Obra Frequência Mental Poderosa">
+                </div>
+                <!-- Selo de Garantia -->
+                <div class="absolute -bottom-10 -right-6 w-32 h-32 rounded-full bg-[#E2C068] text-black flex flex-col items-center justify-center border-4 border-black shadow-2xl z-30">
+                    <span class="text-3xl font-bold serif">7</span>
+                    <span class="text-[9px] font-bold uppercase tracking-widest text-center">Dias de<br>Garantia</span>
+                </div>
+            </div>
+            <div class="space-y-10">
+                <h2 class="text-5xl md:text-8xl serif leading-[0.9] reveal">Domine a sua <span class="italic text-[#E2C068]">Frequência</span>.</h2>
+                <p class="text-xl opacity-80 reveal">O mapa completo para despertar o rugido interno e assumir a autoridade sobre a sua própria vida.</p>
+                <div class="space-y-6 reveal">
+                    <a href="https://freqmentalchat.nexus-manual.com.br" target="_blank" class="golden-btn w-full text-center text-lg py-6">Quero o Acesso Imediato</a>
+                    <div class="flex items-center justify-center gap-6 opacity-40 grayscale">
+                        <span class="text-[10px] tracking-[0.2em] font-bold">PAGAMENTO SEGURO</span>
+                        <span class="text-[10px] tracking-[0.2em] font-bold">ACESSO VITALÍCIO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-16 border-t border-white/5 bg-black text-center">
+        <div class="max-w-7xl mx-auto px-6 opacity-30 text-[10px] uppercase tracking-[0.5em]">
+            © 2026 FREQUÊNCIA MENTAL • O DESPERTAR É UMA ESCOLHA CONSCIENTE.
+        </div>
     </footer>
 
     <script>
-        // Revelação de elementos ao rolar
-        const observer = new IntersectionObserver((entries) => {
+        // Sistema de Revelação ao Rolar
+        const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
-        document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Ajuste de Overflow Dinâmico
+        window.addEventListener('resize', () => {
+            document.body.style.width = window.innerWidth + 'px';
+        });
     </script>
 </body>
 </html>
+
