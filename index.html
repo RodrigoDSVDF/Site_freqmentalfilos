@@ -21,13 +21,12 @@
         @media (min-width: 768px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
         .text-humanized { line-height: 1.8; letter-spacing: -0.01em; }
 
-        /* ===== BANNERS COM FUSÃO SUAVE AO FUNDO PRETO ===== */
+        /* ===== BANNERS COM FUSÃO TOTAL AO FUNDO PRETO ===== */
         .top-banner-container,
         .section-banner-container {
             position: relative;
             width: 100%;
             text-align: center;
-            padding: 0;
             background-color: transparent;
             overflow: visible;
             margin-bottom: 0;
@@ -41,33 +40,36 @@
             height: auto;
             object-fit: contain;
             
-            /* Fusão suave: máscara radial que dissolve nas bordas */
-            mask-image: radial-gradient(
-                ellipse 80% 70% at 50% 45%,
-                rgba(0, 0, 0, 1) 40%,
-                rgba(0, 0, 0, 0.8) 70%,
-                transparent 100%
-            );
-            -webkit-mask-image: radial-gradient(
-                ellipse 80% 70% at 50% 45%,
-                rgba(0, 0, 0, 1) 40%,
-                rgba(0, 0, 0, 0.8) 70%,
-                transparent 100%
-            );
+            /* Máscara radial: desaparece suavemente nas bordas */
+            mask-image: radial-gradient(circle at 50% 40%, black 35%, transparent 85%);
+            -webkit-mask-image: radial-gradient(circle at 50% 40%, black 35%, transparent 85%);
             
-            /* Sombra interna para ancorar a imagem sem linha visível */
-            box-shadow: inset 0 -20px 30px -10px rgba(0,0,0,0.8), 0 10px 20px -5px rgba(0,0,0,0.5);
+            /* Remove qualquer sombra ou borda visível */
+            box-shadow: none;
             border: none;
             opacity: 1;
         }
+        /* Pseudo-elemento para reforçar a fusão na base com gradiente linear */
         .top-banner-container::after,
         .section-banner-container::after {
-            display: none;
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;           /* altura ajustável */
+            background: linear-gradient(to bottom, transparent 0%, #0a0a0a 95%);
+            pointer-events: none;
+            z-index: 2;
         }
         .section-banner-container {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.5rem;    /* pequeno espaçamento para respirar */
         }
         @media (max-width: 768px) {
+            .top-banner-container::after,
+            .section-banner-container::after {
+                height: 70px;
+            }
             .section-banner-container {
                 margin-bottom: 1rem;
             }
