@@ -11,8 +11,8 @@
         html, body { overflow-x: hidden; width: 100%; position: relative; }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;      /* fundo preto */
-            color: #e5e5e5;                 /* texto claro padrão */
+            background-color: #0a0a0a;
+            color: #e5e5e5;
             scroll-behavior: smooth;
             overflow-x: hidden;
         }
@@ -21,11 +21,63 @@
         @media (min-width: 768px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
         .text-humanized { line-height: 1.8; letter-spacing: -0.01em; }
 
-        /* ===== FUNDO PAPIRO PARA SEÇÕES SEM BANNER ===== */
+        /* ===== BANNERS COM FUSÃO SUAVE AO FUNDO PRETO ===== */
+        .top-banner-container,
+        .section-banner-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            padding: 0;
+            background-color: transparent;
+            overflow: visible;
+            margin-bottom: 0;
+        }
+        .top-banner-container img,
+        .section-banner-container img {
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+            object-fit: contain;
+            
+            /* Fusão suave: máscara radial que dissolve nas bordas */
+            mask-image: radial-gradient(
+                ellipse 80% 70% at 50% 45%,
+                rgba(0, 0, 0, 1) 40%,
+                rgba(0, 0, 0, 0.8) 70%,
+                transparent 100%
+            );
+            -webkit-mask-image: radial-gradient(
+                ellipse 80% 70% at 50% 45%,
+                rgba(0, 0, 0, 1) 40%,
+                rgba(0, 0, 0, 0.8) 70%,
+                transparent 100%
+            );
+            
+            /* Sombra interna para ancorar a imagem sem linha visível */
+            box-shadow: inset 0 -20px 30px -10px rgba(0,0,0,0.8), 0 10px 20px -5px rgba(0,0,0,0.5);
+            border: none;
+            opacity: 1;
+        }
+        .top-banner-container::after,
+        .section-banner-container::after {
+            display: none;
+        }
+        .section-banner-container {
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .section-banner-container {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* ===== FUNDO PAPIRO (seções sem banner) ===== */
         .bg-papiro {
             background-color: #e8d5a5;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.08"/></svg>');
-            color: #1f1f1f;  /* texto escuro para contraste */
+            color: #1f1f1f;
         }
         .bg-papiro h1, .bg-papiro h2, .bg-papiro h3, .bg-papiro h4, 
         .bg-papiro p, .bg-papiro span, .bg-papiro div {
@@ -47,64 +99,11 @@
         .bg-papiro .golden-button {
             color: #0a0a0a !important;
         }
-        /* ajuste específico para textos claros dentro de botões dourados */
-        .bg-papiro .golden-button {
-            color: #0a0a0a !important;
-        }
-        /* ajuste para bordas de cards */
         .bg-papiro .tilt-card {
             border-color: rgba(0,0,0,0.1);
         }
 
-        /* ===== BANNER COM EFEITO DE INTEGRAÇÃO (sem gradiente agressivo) ===== */
-        .top-banner-container,
-        .section-banner-container {
-            position: relative;
-            width: 100%;
-            text-align: center;
-            padding: 0;
-            background-color: transparent;
-            overflow: visible;
-            margin-bottom: 0;
-        }
-        .top-banner-container img,
-        .section-banner-container img {
-            display: block;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 1000px;  /* um pouco maior para impacto */
-            height: auto;
-            object-fit: contain;
-            
-            /* Efeito de integração: borda inferior dourada sutil */
-            border-bottom: 2px solid rgba(212, 175, 55, 0.5);
-            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.5);
-            
-            /* Removemos a máscara radial agressiva */
-            mask-image: none;
-            -webkit-mask-image: none;
-            opacity: 1;
-        }
-        /* Removido o pseudo-elemento ::after que criava o gradiente de fusão */
-        .top-banner-container::after,
-        .section-banner-container::after {
-            display: none;
-        }
-        /* Pequeno espaçamento abaixo do banner para respirar */
-        .section-banner-container {
-            margin-bottom: 1.5rem;
-        }
-        @media (max-width: 768px) {
-            .section-banner-container {
-                margin-bottom: 1rem;
-            }
-            .top-banner-container img,
-            .section-banner-container img {
-                border-bottom-width: 1px;
-            }
-        }
-
-        /* IMAGE BOXES (para as outras seções) */
+        /* IMAGE BOXES */
         .image-box {
             overflow: hidden;
             border-radius: 2rem;
@@ -385,11 +384,6 @@
             border-color: #FFD700 !important;
         }
 
-        /* SEPARADOR */
-        .section-separator {
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
         /* FOOTER */
         .security-badge {
             display: inline-flex;
@@ -407,15 +401,11 @@
         .bg-dark-3 { background-color: #161616; }
         .bg-dark-4 { background-color: #1a1a1a; }
         .bg-dark-5 { background-color: #0d0d0d; }
-
-        /* Ajustes de texto */
-        .text-muted { color: #a0a0a0; }
-        .text-bright { color: #f0f0f0; }
     </style>
 </head>
 <body class="antialiased no-x-overflow bg-dark-1">
 
-    <!-- TOP BANNER ORIGINAL -->
+    <!-- TOP BANNER ORIGINAL (arco.png) -->
     <div class="top-banner-container">
         <img src="arco.png" alt="Arco - Frequência Mental">
     </div>
@@ -431,7 +421,7 @@
         </div>
     </div>
 
-    <!-- 1. HERO (fundo próprio) -->
+    <!-- 1. HERO -->
     <header class="min-h-screen flex items-center px-5 md:px-6 py-12 relative overflow-hidden bg-cover bg-center bg-no-repeat" style="background-image: url('./hero-leao.jpg');">
         <div class="hero-overlay"></div>
         <div class="max-w-7xl mx-auto w-full hero-content">
@@ -455,37 +445,15 @@
     <!-- MARQUEE -->
     <div class="py-6 bg-[#111] text-[#e5e5e5] overflow-hidden marquee-wrapper">
         <div class="marquee-track text-xs uppercase tracking-[0.4em] opacity-60 select-none">
-            <span>Frequência Mental Poderosa</span>
-            <span>✦</span>
-            <span>Despertar do Rugido</span>
-            <span>✦</span>
-            <span>Transformação Interior</span>
-            <span>✦</span>
-            <span>Efeito Golem</span>
-            <span>✦</span>
-            <span>Purificação Mental</span>
-            <span>✦</span>
-            <span>Sintonização Vibracional</span>
-            <span>✦</span>
-            <span>Frequência Mental Poderosa</span>
-            <span>✦</span>
-            <span>Despertar do Rugido</span>
-            <span>✦</span>
-            <span>Transformação Interior</span>
-            <span>✦</span>
-            <span>Efeito Golem</span>
-            <span>✦</span>
-            <span>Purificação Mental</span>
-            <span>✦</span>
-            <span>Sintonização Vibracional</span>
-            <span>✦</span>
+            <span>Frequência Mental Poderosa</span><span>✦</span><span>Despertar do Rugido</span><span>✦</span><span>Transformação Interior</span><span>✦</span><span>Efeito Golem</span><span>✦</span><span>Purificação Mental</span><span>✦</span><span>Sintonização Vibracional</span><span>✦</span>
+            <span>Frequência Mental Poderosa</span><span>✦</span><span>Despertar do Rugido</span><span>✦</span><span>Transformação Interior</span><span>✦</span><span>Efeito Golem</span><span>✦</span><span>Purificação Mental</span><span>✦</span><span>Sintonização Vibracional</span><span>✦</span>
         </div>
     </div>
 
     <!-- 2. EFEITO GOLEM (com banner filos01) -->
     <section id="golem" class="px-5 md:px-6 bg-dark-2" data-scroll>
         <div class="section-banner-container">
-            <img src="filos01.jpg" alt="Criativo Filos 01">
+            <img src="filos01.png" alt="Criativo Filos 01">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8">
             <div class="image-box h-[380px] sm:h-[450px] md:h-[550px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
