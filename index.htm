@@ -49,7 +49,7 @@
         }
 
         /* =====================================================
-           SISTEMA DE FUSÃO ENTRE SEÇÕES
+           SISTEMA DE FUSÃO ENTRE SEÇÕES (mantido)
         ===================================================== */
         .fade-top::before,
         .fade-bottom::after {
@@ -71,7 +71,7 @@
             .fade-bottom { padding-bottom: calc(8rem + var(--fade-h)); }
         }
 
-        /* Gradientes de fusão (mantidos para as transições entre seções) */
+        /* Gradientes de fusão entre seções (inalterados) */
         #golem.fade-top::before    { background: linear-gradient(to bottom, var(--dark-1) 0%, transparent 100%); }
         #golem.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro)  100%); }
         .section-stagnado.fade-top::before    { background: linear-gradient(to bottom, var(--dark-2) 0%, transparent 100%); }
@@ -103,7 +103,7 @@
         }
 
         /* =====================================================
-           BANNERS — ESTILO LIMPO E IMPACTANTE
+           BANNERS — ESTILO BASE
         ===================================================== */
         .top-banner-container,
         .section-banner-container {
@@ -112,7 +112,7 @@
             margin: 0;
             padding: 0;
             z-index: 2;
-            line-height: 0; /* elimina espaços extras */
+            line-height: 0;
         }
         .top-banner-container img,
         .section-banner-container img {
@@ -124,16 +124,39 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        /* Banner horizontal específico da seção 8 */
-        .banner-imagine {
+        /* Banner com fusão suave nas bordas (para integração com fundo escuro) */
+        .banner-fusao {
+            position: relative;
             width: 100%;
-            height: 380px; /* altura generosa no desktop */
+            height: 380px; /* altura generosa */
+        }
+        .banner-fusao img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             display: block;
         }
+        /* Pseudo-elemento que aplica a fusão apenas nas bordas */
+        .banner-fusao::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* Gradiente que mescla as bordas laterais e inferior/superior com #161616 */
+            background: 
+                /* laterais */
+                linear-gradient(to right, #161616 0%, transparent 15%, transparent 85%, #161616 100%),
+                /* topo e base */
+                linear-gradient(to bottom, #161616 0%, transparent 20%, transparent 80%, #161616 100%);
+            opacity: 0.85; /* intensidade da fusão – ajuste conforme necessário */
+            z-index: 3;
+        }
         @media (max-width: 768px) {
-            .banner-imagine {
-                height: 220px; /* bom tamanho no mobile */
+            .banner-fusao {
+                height: 220px;
             }
         }
 
@@ -186,7 +209,7 @@
         }
 
         /* =====================================================
-           GLASS TAG / STEP NUMBERS / ETC (mantidos)
+           GLASS TAG / STEP NUMBERS / ETC
         ===================================================== */
         .glass-tag {
             background: rgba(255, 255, 255, 0.07);
@@ -247,7 +270,7 @@
         .delay-400 { transition-delay: 0.4s; }
         .delay-500 { transition-delay: 0.5s; }
 
-        /* Parallax, floats, marquee, botões etc (mantidos na íntegra) */
+        /* Parallax, floats, marquee, botões (mantidos) */
         .parallax-img { will-change: transform; }
         .float-slow   { animation: floatSlow 7s ease-in-out infinite; backdrop-filter: blur(10px); }
         .float-medium { animation: floatMedium 5s ease-in-out infinite; backdrop-filter: blur(10px); }
@@ -628,13 +651,13 @@
         </div>
     </section>
 
-    <!-- 8. IMAGINE (BANNER HORIZONTAL GRANDE E INTEGRADO) -->
+    <!-- 8. IMAGINE (BANNER COM FUSÃO PERFEITA) -->
     <section class="section-imagine px-0 md:px-0 bg-dark-3 grain-overlay fade-top fade-bottom">
-        <!-- Banner horizontal ocupando toda a largura, sem margens -->
-        <div class="section-banner-container w-full">
-            <img src="filos04.jpg" alt="Banner Filosofia 04" class="banner-imagine">
+        <!-- Container com a classe banner-fusao que aplica o gradiente de mesclagem -->
+        <div class="banner-fusao w-full">
+            <img src="filos04.jpg" alt="Banner Filosofia 04">
         </div>
-        <!-- Conteúdo textual da seção, agora com padding lateral para legibilidade -->
+        <!-- Conteúdo textual com padding lateral -->
         <div class="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="space-y-7 reveal-left">
                 <p class="text-xl md:text-2xl text-humanized leading-relaxed font-medium">
