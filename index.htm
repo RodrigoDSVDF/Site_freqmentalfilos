@@ -49,7 +49,7 @@
         }
 
         /* =====================================================
-           SISTEMA DE FUSÃO ENTRE SEÇÕES (mantido)
+           SISTEMA DE FUSÃO ENTRE SEÇÕES
         ===================================================== */
         .fade-top::before,
         .fade-bottom::after {
@@ -71,7 +71,6 @@
             .fade-bottom { padding-bottom: calc(8rem + var(--fade-h)); }
         }
 
-        /* Gradientes de fusão entre seções (inalterados) */
         #golem.fade-top::before    { background: linear-gradient(to bottom, var(--dark-1) 0%, transparent 100%); }
         #golem.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro)  100%); }
         .section-stagnado.fade-top::before    { background: linear-gradient(to bottom, var(--dark-2) 0%, transparent 100%); }
@@ -103,7 +102,7 @@
         }
 
         /* =====================================================
-           BANNERS — ESTILO BASE
+           BANNERS — ESTILO BASE + OVERLAYS DE FUSÃO
         ===================================================== */
         .top-banner-container,
         .section-banner-container {
@@ -118,26 +117,23 @@
         .section-banner-container img {
             display: block;
             width: 100%;
-            height: auto;
-            object-fit: cover;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        /* Banner com fusão suave nas bordas (para integração com fundo escuro) */
-        .banner-fusao {
-            position: relative;
-            width: 100%;
-            height: 380px; /* altura generosa */
-        }
-        .banner-fusao img {
-            width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            border: none;
         }
-        /* Pseudo-elemento que aplica a fusão apenas nas bordas */
-        .banner-fusao::after {
+
+        /* Altura padronizada para banners horizontais */
+        .banner-height {
+            height: 380px;
+        }
+        @media (max-width: 768px) {
+            .banner-height {
+                height: 220px;
+            }
+        }
+
+        /* Overlays de fusão — aplicados via pseudo-elemento ::after */
+        .banner-overlay::after {
             content: "";
             position: absolute;
             top: 0;
@@ -145,19 +141,30 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            /* Gradiente que mescla as bordas laterais e inferior/superior com #161616 */
-            background: 
-                /* laterais */
-                linear-gradient(to right, #161616 0%, transparent 15%, transparent 85%, #161616 100%),
-                /* topo e base */
-                linear-gradient(to bottom, #161616 0%, transparent 20%, transparent 80%, #161616 100%);
-            opacity: 0.85; /* intensidade da fusão – ajuste conforme necessário */
             z-index: 3;
+            opacity: 0.9; /* Intensidade da fusão */
         }
-        @media (max-width: 768px) {
-            .banner-fusao {
-                height: 220px;
-            }
+
+        /* Variações por cor de fundo */
+        .overlay-dark1::after {
+            background: 
+                linear-gradient(to right, #0a0a0a 0%, transparent 15%, transparent 85%, #0a0a0a 100%),
+                linear-gradient(to bottom, #0a0a0a 0%, transparent 20%, transparent 80%, #0a0a0a 100%);
+        }
+        .overlay-dark2::after {
+            background: 
+                linear-gradient(to right, #111111 0%, transparent 15%, transparent 85%, #111111 100%),
+                linear-gradient(to bottom, #111111 0%, transparent 20%, transparent 80%, #111111 100%);
+        }
+        .overlay-dark3::after {
+            background: 
+                linear-gradient(to right, #161616 0%, transparent 15%, transparent 85%, #161616 100%),
+                linear-gradient(to bottom, #161616 0%, transparent 20%, transparent 80%, #161616 100%);
+        }
+        .overlay-dark4::after {
+            background: 
+                linear-gradient(to right, #1a1a1a 0%, transparent 15%, transparent 85%, #1a1a1a 100%),
+                linear-gradient(to bottom, #1a1a1a 0%, transparent 20%, transparent 80%, #1a1a1a 100%);
         }
 
         /* =====================================================
@@ -473,8 +480,8 @@
 </head>
 <body class="antialiased no-x-overflow bg-dark-1">
 
-    <!-- TOP BANNER -->
-    <div class="top-banner-container">
+    <!-- TOP BANNER (com overlay dark1) -->
+    <div class="top-banner-container banner-height banner-overlay overlay-dark1">
         <img src="arco.png" alt="Arco - Frequência Mental">
     </div>
 
@@ -518,9 +525,9 @@
         </div>
     </div>
 
-    <!-- 2. EFEITO GOLEM -->
+    <!-- 2. EFEITO GOLEM (banner overlay dark2) -->
     <section id="golem" class="px-5 md:px-6 bg-dark-2 grain-overlay fade-top fade-bottom">
-        <div class="section-banner-container">
+        <div class="section-banner-container banner-height banner-overlay overlay-dark2">
             <img src="filos01.png" alt="Criativo Filos 01">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
@@ -560,9 +567,9 @@
         </div>
     </section>
 
-    <!-- 4. FILOSOFIA E CONSCIÊNCIA -->
+    <!-- 4. FILOSOFIA E CONSCIÊNCIA (banner overlay dark4) -->
     <section id="filosofia" class="px-5 md:px-6 bg-dark-4 grain-overlay fade-top fade-bottom">
-        <div class="section-banner-container">
+        <div class="section-banner-container banner-height banner-overlay overlay-dark4">
             <img src="filos02.png" alt="Criativo Filos 02">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
@@ -607,9 +614,9 @@
         </div>
     </section>
 
-    <!-- 6. TRANSMUTAÇÃO -->
+    <!-- 6. TRANSMUTAÇÃO (banner overlay dark1) -->
     <section class="section-transmutacao px-5 md:px-6 bg-dark-1 grain-overlay fade-top fade-bottom">
-        <div class="section-banner-container">
+        <div class="section-banner-container banner-height banner-overlay overlay-dark1">
             <img src="filos03.png" alt="Criativo Filos 01">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
@@ -651,13 +658,11 @@
         </div>
     </section>
 
-    <!-- 8. IMAGINE (BANNER COM FUSÃO PERFEITA) -->
+    <!-- 8. IMAGINE (banner overlay dark3) -->
     <section class="section-imagine px-0 md:px-0 bg-dark-3 grain-overlay fade-top fade-bottom">
-        <!-- Container com a classe banner-fusao que aplica o gradiente de mesclagem -->
-        <div class="banner-fusao w-full">
+        <div class="section-banner-container banner-height banner-overlay overlay-dark3 w-full">
             <img src="filos04.jpg" alt="Banner Filosofia 04">
         </div>
-        <!-- Conteúdo textual com padding lateral -->
         <div class="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="space-y-7 reveal-left">
                 <p class="text-xl md:text-2xl text-humanized leading-relaxed font-medium">
