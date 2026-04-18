@@ -21,7 +21,7 @@
         @media (min-width: 768px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
         .text-humanized { line-height: 1.8; letter-spacing: -0.01em; }
 
-        /* ===== BANNERS COM FUSÃO TOTAL AO FUNDO PRETO ===== */
+        /* ===== BANNERS COM FUSÃO TOTAL AO FUNDO ===== */
         .top-banner-container,
         .section-banner-container {
             position: relative;
@@ -39,17 +39,24 @@
             max-width: 1000px;
             height: auto;
             object-fit: contain;
-            
-            /* Máscara radial: desaparece suavemente nas bordas */
-            mask-image: radial-gradient(circle at 50% 40%, black 35%, transparent 85%);
-            -webkit-mask-image: radial-gradient(circle at 50% 40%, black 35%, transparent 85%);
-            
-            /* Remove qualquer sombra ou borda visível */
+
+            /* Máscara em todas as direções: some nas bordas e na base */
+            mask-image:
+                linear-gradient(to bottom, transparent 0%, black 18%, black 55%, transparent 100%),
+                linear-gradient(to right,  transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-composite: intersect;
+
+            -webkit-mask-image:
+                linear-gradient(to bottom, transparent 0%, black 18%, black 55%, transparent 100%),
+                linear-gradient(to right,  transparent 0%, black 15%, black 85%, transparent 100%);
+            -webkit-mask-composite: source-in;
+
             box-shadow: none;
             border: none;
             opacity: 1;
         }
-        /* Pseudo-elemento para reforçar a fusão na base com gradiente linear */
+
+        /* Gradiente extra na base para reforçar a fusão */
         .top-banner-container::after,
         .section-banner-container::after {
             content: "";
@@ -57,18 +64,25 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 100px;           /* altura ajustável */
-            background: linear-gradient(to bottom, transparent 0%, #0a0a0a 95%);
+            height: 120px;
+            background: linear-gradient(to bottom, transparent 0%, #0a0a0a 100%);
             pointer-events: none;
             z-index: 2;
         }
+
+        /* Seções com fundo diferente precisam do gradiente correto */
+        .bg-dark-2 .section-banner-container::after  { background: linear-gradient(to bottom, transparent 0%, #111111 100%); }
+        .bg-dark-3 .section-banner-container::after  { background: linear-gradient(to bottom, transparent 0%, #161616 100%); }
+        .bg-dark-4 .section-banner-container::after  { background: linear-gradient(to bottom, transparent 0%, #1a1a1a 100%); }
+        .bg-dark-5 .section-banner-container::after  { background: linear-gradient(to bottom, transparent 0%, #0d0d0d 100%); }
+
         .section-banner-container {
-            margin-bottom: 1.5rem;    /* pequeno espaçamento para respirar */
+            margin-bottom: 1.5rem;
         }
         @media (max-width: 768px) {
             .top-banner-container::after,
             .section-banner-container::after {
-                height: 70px;
+                height: 80px;
             }
             .section-banner-container {
                 margin-bottom: 1rem;
@@ -81,7 +95,7 @@
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.08"/></svg>');
             color: #1f1f1f;
         }
-        .bg-papiro h1, .bg-papiro h2, .bg-papiro h3, .bg-papiro h4, 
+        .bg-papiro h1, .bg-papiro h2, .bg-papiro h3, .bg-papiro h4,
         .bg-papiro p, .bg-papiro span, .bg-papiro div {
             color: #1f1f1f;
         }
