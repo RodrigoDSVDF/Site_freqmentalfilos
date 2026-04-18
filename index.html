@@ -12,7 +12,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0a0a0a;      /* fundo preto */
-            color: #e5e5e5;                 /* texto claro */
+            color: #e5e5e5;                 /* texto claro padrão */
             scroll-behavior: smooth;
             overflow-x: hidden;
         }
@@ -21,7 +21,42 @@
         @media (min-width: 768px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
         .text-humanized { line-height: 1.8; letter-spacing: -0.01em; }
 
-        /* ===== BANNER COM EFEITO DE FUSÃO TOTAL (RADIAL) – agora adaptado para fundo preto ===== */
+        /* ===== FUNDO PAPIRO PARA SEÇÕES SEM BANNER ===== */
+        .bg-papiro {
+            background-color: #e8d5a5;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.08"/></svg>');
+            color: #1f1f1f;  /* texto escuro para contraste */
+        }
+        .bg-papiro h1, .bg-papiro h2, .bg-papiro h3, .bg-papiro h4, 
+        .bg-papiro p, .bg-papiro span, .bg-papiro div {
+            color: #1f1f1f;
+        }
+        .bg-papiro .glass-tag {
+            background: rgba(0,0,0,0.05);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0,0,0,0.1);
+            color: #1f1f1f;
+        }
+        .bg-papiro .step-number {
+            color: #1f1f1f;
+            opacity: 0.08;
+        }
+        .bg-papiro .golden-guarantee {
+            color: #0a0a0a;
+        }
+        .bg-papiro .golden-button {
+            color: #0a0a0a !important;
+        }
+        /* ajuste específico para textos claros dentro de botões dourados */
+        .bg-papiro .golden-button {
+            color: #0a0a0a !important;
+        }
+        /* ajuste para bordas de cards */
+        .bg-papiro .tilt-card {
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        /* ===== BANNER COM EFEITO DE INTEGRAÇÃO (sem gradiente agressivo) ===== */
         .top-banner-container,
         .section-banner-container {
             position: relative;
@@ -30,53 +65,44 @@
             padding: 0;
             background-color: transparent;
             overflow: visible;
+            margin-bottom: 0;
         }
         .top-banner-container img,
         .section-banner-container img {
             display: block;
             margin: 0 auto;
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;  /* um pouco maior para impacto */
             height: auto;
             object-fit: contain;
             
-            mask-image: radial-gradient(
-                ellipse 70% 60% at 50% 40%,
-                rgba(0, 0, 0, 1) 30%,
-                rgba(0, 0, 0, 0.7) 60%,
-                transparent 100%
-            );
-            -webkit-mask-image: radial-gradient(
-                ellipse 70% 60% at 50% 40%,
-                rgba(0, 0, 0, 1) 30%,
-                rgba(0, 0, 0, 0.7) 60%,
-                transparent 100%
-            );
+            /* Efeito de integração: borda inferior dourada sutil */
+            border-bottom: 2px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.5);
+            
+            /* Removemos a máscara radial agressiva */
+            mask-image: none;
+            -webkit-mask-image: none;
             opacity: 1;
         }
+        /* Removido o pseudo-elemento ::after que criava o gradiente de fusão */
         .top-banner-container::after,
         .section-banner-container::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                #0a0a0a 90%          /* fundo preto da página */
-            );
-            pointer-events: none;
-            z-index: 2;
+            display: none;
+        }
+        /* Pequeno espaçamento abaixo do banner para respirar */
+        .section-banner-container {
+            margin-bottom: 1.5rem;
         }
         @media (max-width: 768px) {
-            .top-banner-container::after,
-            .section-banner-container::after {
-                height: 70px;
+            .section-banner-container {
+                margin-bottom: 1rem;
+            }
+            .top-banner-container img,
+            .section-banner-container img {
+                border-bottom-width: 1px;
             }
         }
-        /* ========================================== */
 
         /* IMAGE BOXES (para as outras seções) */
         .image-box {
@@ -121,7 +147,7 @@
             opacity: 0.08;
             line-height: 1;
             pointer-events: none;
-            color: #e5e5e5;
+            color: currentColor;
         }
         @media (max-width: 768px) {
             .step-number { font-size: 3rem; top: -0.5rem; left: 0.75rem; }
@@ -179,7 +205,7 @@
         /* PARALLAX IMAGENS */
         .parallax-img { will-change: transform; }
 
-        /* FLOATING ELEMENTS - AGORA COM BACKDROP BLUR */
+        /* FLOATING ELEMENTS */
         .float-slow {
             animation: floatSlow 7s ease-in-out infinite;
             backdrop-filter: blur(10px);
@@ -211,10 +237,10 @@
             100% { transform: translateX(0px) translateY(0px); }
         }
 
-        /* SCROLL-DRIVEN HORIZONTAL (cards) */
+        /* SCROLL-DRIVEN HORIZONTAL */
         .scroll-slide { will-change: transform; }
 
-        /* MARQUEE horizontal - COM MÁSCARA NAS BORDAS */
+        /* MARQUEE */
         .marquee-wrapper {
             overflow: hidden;
             mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
@@ -231,7 +257,7 @@
             to   { transform: translateX(-50%); }
         }
 
-        /* BOTÃO MOBILE CTA */
+        /* BOTÃO MOBILE */
         .chaos-button-wrapper {
             display: flex;
             flex-direction: column;
@@ -298,7 +324,7 @@
         .btn-block { display: block; width: 100%; }
         .no-x-overflow { overflow-x: hidden; }
 
-        /* HOVER TILT nos cards */
+        /* HOVER TILT */
         .tilt-card {
             transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s;
             border: 1px solid transparent;
@@ -306,7 +332,7 @@
         .tilt-card:hover {
             transform: translateY(-4px) rotate(0.3deg);
             box-shadow: 0 36px 60px rgba(0,0,0,0.8);
-            border-color: rgba(255, 215, 0, 0.25);
+            border-color: rgba(212, 175, 55, 0.25);
         }
 
         .hero-overlay {
@@ -324,7 +350,7 @@
             z-index: 2;
         }
 
-        /* ===== EFEITOS DOURADOS (mantidos) ===== */
+        /* EFEITOS DOURADOS */
         .golden-guarantee {
             background: linear-gradient(145deg, #F5E7A3 0%, #E2C068 40%, #C9A23D 70%, #B8862D 100%);
             color: #0a0a0a;
@@ -359,7 +385,7 @@
             border-color: #FFD700 !important;
         }
 
-        /* SEPARADOR SUTIL ENTRE SEÇÕES (adaptado) */
+        /* SEPARADOR */
         .section-separator {
             border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
@@ -375,7 +401,7 @@
             letter-spacing: 0.2em;
         }
 
-        /* Cores de fundo das seções (tons de preto/cinza) */
+        /* Cores de fundo das seções escuras */
         .bg-dark-1 { background-color: #0a0a0a; }
         .bg-dark-2 { background-color: #111111; }
         .bg-dark-3 { background-color: #161616; }
@@ -383,14 +409,13 @@
         .bg-dark-5 { background-color: #0d0d0d; }
 
         /* Ajustes de texto */
-        h1, h2, h3, h4, p, span, div { color: inherit; }
         .text-muted { color: #a0a0a0; }
         .text-bright { color: #f0f0f0; }
     </style>
 </head>
 <body class="antialiased no-x-overflow bg-dark-1">
 
-    <!-- ===== TOP BANNER ORIGINAL ===== -->
+    <!-- TOP BANNER ORIGINAL -->
     <div class="top-banner-container">
         <img src="arco.png" alt="Arco - Frequência Mental">
     </div>
@@ -406,7 +431,7 @@
         </div>
     </div>
 
-    <!-- 1. HERO -->
+    <!-- 1. HERO (fundo próprio) -->
     <header class="min-h-screen flex items-center px-5 md:px-6 py-12 relative overflow-hidden bg-cover bg-center bg-no-repeat" style="background-image: url('./hero-leao.jpg');">
         <div class="hero-overlay"></div>
         <div class="max-w-7xl mx-auto w-full hero-content">
@@ -427,7 +452,7 @@
         </div>
     </header>
 
-    <!-- MARQUEE SEPARADOR -->
+    <!-- MARQUEE -->
     <div class="py-6 bg-[#111] text-[#e5e5e5] overflow-hidden marquee-wrapper">
         <div class="marquee-track text-xs uppercase tracking-[0.4em] opacity-60 select-none">
             <span>Frequência Mental Poderosa</span>
@@ -457,13 +482,11 @@
         </div>
     </div>
 
-    <!-- 2. EFEITO GOLEM (com banner filos01 no topo) -->
+    <!-- 2. EFEITO GOLEM (com banner filos01) -->
     <section id="golem" class="px-5 md:px-6 bg-dark-2" data-scroll>
-        <!-- BANNER CRIATIVO (pula 1 seção após o hero) -->
         <div class="section-banner-container">
             <img src="filos01.png" alt="Criativo Filos 01">
         </div>
-
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8">
             <div class="image-box h-[380px] sm:h-[450px] md:h-[550px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
                 <img src="./ebook-golem.png" alt="E-book Efeito Golem" class="parallax-img">
@@ -484,8 +507,8 @@
         </div>
     </section>
 
-    <!-- 3. PORQUÊ SE SENTE ESTAGNADO? (sem banner – pula 1) -->
-    <section class="px-5 md:px-6 bg-dark-3">
+    <!-- 3. PORQUÊ SE SENTE ESTAGNADO? (fundo papiro) -->
+    <section class="px-5 md:px-6 bg-papiro">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center">
             <div class="space-y-7">
                 <h2 class="text-4xl md:text-6xl font-light serif leading-tight reveal-left">Está cansado de sentir-se desmotivado <br><span class="italic underline decoration-2">e sem propósito na vida?</span></h2>
@@ -501,13 +524,11 @@
         </div>
     </section>
 
-    <!-- 4. FILOSOFIA E CONSCIÊNCIA (com banner filos02 no topo) -->
+    <!-- 4. FILOSOFIA E CONSCIÊNCIA (com banner filos02) -->
     <section id="filosofia" class="px-5 md:px-6 bg-dark-4" data-scroll>
-        <!-- BANNER CRIATIVO (pula mais 1 seção) -->
         <div class="section-banner-container">
             <img src="filos02.png" alt="Criativo Filos 02">
         </div>
-
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8">
             <div class="image-box h-[420px] sm:h-[480px] md:h-[600px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
                 <img src="./meditacao.png" alt="Meditação consciente" class="parallax-img">
@@ -526,22 +547,22 @@
         </div>
     </section>
 
-    <!-- 5. MÉTODO DOS 3 PILARES (sem banner) -->
-    <section class="px-5 md:px-6 bg-dark-5 overflow-hidden">
+    <!-- 5. MÉTODO DOS 3 PILARES (fundo papiro) -->
+    <section class="px-5 md:px-6 bg-papiro overflow-hidden">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-4xl md:text-6xl serif italic text-center mb-16 md:mb-24 reveal-up">A Trindade do Despertar</h2>
             <div class="grid md:grid-cols-3 gap-12 md:gap-16">
-                <div class="relative p-8 md:p-10 border border-white/10 rounded-3xl bg-[#1a1a1a]/60 scroll-slide reveal-diag-left tilt-card delay-100">
+                <div class="relative p-8 md:p-10 border border-black/10 rounded-3xl bg-white/40 scroll-slide reveal-diag-left tilt-card delay-100">
                     <span class="step-number">01</span>
                     <h3 class="text-2xl md:text-3xl serif mb-5">Purificação</h3>
                     <p class="opacity-80 leading-relaxed">Elimine os parasitas mentais e o Efeito Golem que têm drenado a sua energia vital durante anos.</p>
                 </div>
-                <div class="relative p-8 md:p-10 border border-white/10 rounded-3xl bg-[#1a1a1a]/60 scroll-slide reveal-up tilt-card delay-200">
+                <div class="relative p-8 md:p-10 border border-black/10 rounded-3xl bg-white/40 scroll-slide reveal-up tilt-card delay-200">
                     <span class="step-number">02</span>
                     <h3 class="text-2xl md:text-3xl serif mb-5">Sintonização</h3>
                     <p class="opacity-80 leading-relaxed">Ajuste a sua frequência vibracional para o modo "Criador" em vez do modo "Espectador".</p>
                 </div>
-                <div class="relative p-8 md:p-10 border border-white/10 rounded-3xl bg-[#1a1a1a]/60 scroll-slide reveal-diag-right tilt-card delay-300">
+                <div class="relative p-8 md:p-10 border border-black/10 rounded-3xl bg-white/40 scroll-slide reveal-diag-right tilt-card delay-300">
                     <span class="step-number">03</span>
                     <h3 class="text-2xl md:text-3xl serif mb-5">Manifestação</h3>
                     <p class="opacity-80 leading-relaxed">Transforme a clareza mental em resultados tangíveis no mundo físico, com a força de um rugido.</p>
@@ -555,7 +576,6 @@
         <div class="section-banner-container">
             <img src="filos01.png" alt="Criativo Filos 01">
         </div>
-
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8">
             <div class="space-y-7">
                 <h2 class="text-4xl md:text-6xl font-light serif leading-tight reveal-left">O Momento da <br><span class="italic font-normal">Transmutação</span>.</h2>
@@ -572,8 +592,8 @@
         </div>
     </section>
 
-    <!-- 7. JUNTOS NESSA JORNADA (sem banner) -->
-    <section class="px-5 md:px-6 bg-dark-2">
+    <!-- 7. JUNTOS NESSA JORNADA (fundo papiro) -->
+    <section class="px-5 md:px-6 bg-papiro">
         <div class="max-w-7xl mx-auto text-center mb-12 md:mb-16 reveal-up">
             <h2 class="text-3xl md:text-5xl font-light serif italic">Vamos Juntos nessa jornada de transformação</h2>
         </div>
@@ -600,7 +620,6 @@
         <div class="section-banner-container">
             <img src="filos02.png" alt="Criativo Filos 02">
         </div>
-
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8">
             <div class="space-y-7 reveal-left">
                 <p class="text-xl md:text-2xl text-humanized leading-relaxed font-medium">
@@ -619,8 +638,8 @@
         </div>
     </section>
 
-    <!-- 9. CHECKOUT FINAL (sem banner, mantém destaque) -->
-    <section id="obra" class="px-5 md:px-6 bg-black text-[#e5e5e5]" data-scroll>
+    <!-- 9. CHECKOUT FINAL (fundo papiro) -->
+    <section id="obra" class="px-5 md:px-6 bg-papiro" data-scroll>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center">
             <div class="relative md:order-1 order-2 flex justify-center reveal-scale">
                 <div class="image-box h-[420px] sm:h-[520px] md:h-[650px] w-full transform -rotate-1 shadow-2xl float-slow" style="animation-duration: 8s;">
