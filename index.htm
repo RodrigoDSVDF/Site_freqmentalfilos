@@ -83,11 +83,9 @@
         }
 
         /* =====================================================
-           BANNERS — TÉCNICA IDÊNTICA AO ARCO.PNG
-           Radial-gradient mask + ::after com cor exata do fundo
+           BANNERS — TÉCNICA REFINADA (SEM CORTES VISÍVEIS)
+           Radial-gradient mask + ::after/::before com fade estendido
         ===================================================== */
-
-        /* Container base */
         .top-banner-container,
         .section-banner-container {
             position: relative;
@@ -96,9 +94,9 @@
             background-color: transparent;
             overflow: visible;
             padding: 0;
+            isolation: isolate;
         }
 
-        /* Imagem: máscara radial que dissolve todas as bordas */
         .top-banner-container img,
         .section-banner-container img {
             display: block;
@@ -111,50 +109,76 @@
             border: none;
             box-shadow: none;
             -webkit-mask-image: radial-gradient(
-                ellipse 70% 60% at 50% 40%,
-                rgba(0,0,0,1)   30%,
-                rgba(0,0,0,0.7) 60%,
-                transparent     100%
+                ellipse 90% 70% at 50% 40%,
+                rgba(0,0,0,1) 25%,
+                rgba(0,0,0,0.8) 50%,
+                transparent 90%
             );
             mask-image: radial-gradient(
-                ellipse 70% 60% at 50% 40%,
-                rgba(0,0,0,1)   30%,
-                rgba(0,0,0,0.7) 60%,
-                transparent     100%
+                ellipse 90% 70% at 50% 40%,
+                rgba(0,0,0,1) 25%,
+                rgba(0,0,0,0.8) 50%,
+                transparent 90%
             );
         }
 
-        /* ::after: gradiente que vai para a cor exata do fundo de cada seção */
         .top-banner-container::after,
         .section-banner-container::after {
             content: "";
             position: absolute;
-            bottom: 0; left: 0;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            pointer-events: none;
+            z-index: 5;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                var(--fade-color, #0a0a0a) 85%
+            );
+        }
+
+        .top-banner-container::before,
+        .section-banner-container::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: 0;
             width: 100%;
             height: 120px;
             pointer-events: none;
-            z-index: 2;
+            z-index: 5;
+            background: linear-gradient(
+                to top,
+                transparent 0%,
+                var(--fade-color, #0a0a0a) 85%
+            );
         }
 
-        /* arco.png — body é bg-dark-1 = #0a0a0a */
-        .top-banner-container::after {
-            background: linear-gradient(to bottom, transparent 0%, #0a0a0a 90%);
+        .top-banner-container::after,
+        .top-banner-container::before {
+            --fade-color: #0a0a0a;
         }
-        /* filos01 — #golem — bg-dark-2 = #111111 */
-        #golem .section-banner-container::after {
-            background: linear-gradient(to bottom, transparent 0%, #111111 90%);
+
+        #golem .section-banner-container::after,
+        #golem .section-banner-container::before {
+            --fade-color: #111111;
         }
-        /* filos02 — #filosofia — bg-dark-4 = #1a1a1a */
-        #filosofia .section-banner-container::after {
-            background: linear-gradient(to bottom, transparent 0%, #1a1a1a 90%);
+
+        #filosofia .section-banner-container::after,
+        #filosofia .section-banner-container::before {
+            --fade-color: #1a1a1a;
         }
-        /* filos03 — section-transmutacao — bg-dark-1 = #0a0a0a */
-        .section-transmutacao .section-banner-container::after {
-            background: linear-gradient(to bottom, transparent 0%, #0a0a0a 90%);
+
+        .section-transmutacao .section-banner-container::after,
+        .section-transmutacao .section-banner-container::before {
+            --fade-color: #0a0a0a;
         }
-        /* filos04 — section-imagine — bg-dark-3 = #161616 */
-        .section-imagine .section-banner-container::after {
-            background: linear-gradient(to bottom, transparent 0%, #161616 90%);
+
+        .section-imagine .section-banner-container::after,
+        .section-imagine .section-banner-container::before {
+            --fade-color: #161616;
         }
 
         .section-banner-container { margin-bottom: 2rem; }
@@ -163,7 +187,9 @@
             .top-banner-container img,
             .section-banner-container img { max-height: 320px; }
             .top-banner-container::after,
-            .section-banner-container::after { height: 80px; }
+            .section-banner-container::after { height: 120px; }
+            .top-banner-container::before,
+            .section-banner-container::before { height: 80px; }
             .section-banner-container { margin-bottom: 1rem; }
         }
 
