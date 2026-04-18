@@ -42,7 +42,7 @@
             position: relative;
             padding-top: 5rem;
             padding-bottom: 5rem;
-            /* isolation: isolate removido — quebrava mix-blend-mode dos banners */
+            isolation: isolate;
         }
         @media (min-width: 768px) {
             section { padding-top: 8rem; padding-bottom: 8rem; }
@@ -104,70 +104,80 @@
         /* =====================================================
            BANNERS — FUSÃO POR MÁSCARA DE TRANSPARÊNCIA
         ===================================================== */
-        /* Banner do topo (fora de section) */
-        .top-banner-container {
+        .top-banner-container,
+        .section-banner-container {
             position: relative;
             width: 100%;
-            margin: 0;
-            padding: 0;
-            z-index: 2;
-            line-height: 0;
+            text-align: center;
             background-color: transparent;
+            overflow: visible;
+            margin-bottom: 0;
+            z-index: 2;
         }
 
-        /* Banners internos às seções: absolutos, centrados, sem interferir no layout */
-        .section-banner-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            max-width: 1000px;
-            z-index: 1;
-            line-height: 0;
-            pointer-events: none;
-        }
-
-        /* Imagem base */
-        .banner-img {
+        /* Máscara aplicada direto na img — funciona em Chrome, Firefox e Safari */
+        .top-banner-container img,
+        .section-banner-container img {
             display: block;
+            margin: 0 auto;
             width: 100%;
             height: auto;
             object-fit: contain;
             border: none;
+            box-shadow: none;
+            /* Máscara dupla: desbota laterais + topo/base */
+            mask-image:
+                linear-gradient(to bottom, transparent 0%, black 18%, black 55%, transparent 100%),
+                linear-gradient(to right,  transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-composite: intersect;
+            -webkit-mask-image:
+                linear-gradient(to bottom, transparent 0%, black 18%, black 55%, transparent 100%),
+                linear-gradient(to right,  transparent 0%, black 15%, black 85%, transparent 100%);
+            -webkit-mask-composite: source-in;
         }
 
-        /* Altura máxima para o banner do topo */
-        .banner-height {
-            max-height: 380px;
-            width: 100%;
-            object-fit: contain;
+        /* Banner do topo: tamanho generoso */
+        .top-banner-container img {
+            max-width: 900px;
+            max-height: 300px;
         }
+
+        /* Banners internos de seção: discretos, não dominam o layout */
+        .section-banner-container img {
+            max-width: 680px;
+            max-height: 190px;
+        }
+
         @media (max-width: 768px) {
-            .banner-height {
-                max-height: 220px;
+            .top-banner-container img {
+                max-height: 170px;
             }
-            .section-banner-container {
-                max-width: 95%;
+            .section-banner-container img {
+                max-height: 120px;
             }
         }
 
-        /* Máscara de fusão: gradiente radial + blend mode para fundir completamente com o fundo */
-        .banner-fade {
-            -webkit-mask-image: radial-gradient(
-                ellipse 72% 78% at 50% 50%,
-                black 20%,
-                rgba(0,0,0,0.6) 55%,
-                transparent 100%
-            );
-            mask-image: radial-gradient(
-                ellipse 72% 78% at 50% 50%,
-                black 20%,
-                rgba(0,0,0,0.6) 55%,
-                transparent 100%
-            );
-            mix-blend-mode: luminosity;
-            opacity: 0.88;
+        /* Gradiente de fundo que reforça a fusão na borda inferior */
+        .top-banner-container::after,
+        .section-banner-container::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 80px;
+            pointer-events: none;
+            z-index: 2;
+        }
+        /* Cor do after sincronizada com o bg de cada seção */
+        .top-banner-container::after                          { background: linear-gradient(to bottom, transparent, #0a0a0a); }
+        #golem .section-banner-container::after               { background: linear-gradient(to bottom, transparent, #111111); }
+        #filosofia .section-banner-container::after           { background: linear-gradient(to bottom, transparent, #1a1a1a); }
+        .section-transmutacao .section-banner-container::after { background: linear-gradient(to bottom, transparent, #0a0a0a); }
+        .section-imagine .section-banner-container::after     { background: linear-gradient(to bottom, transparent, #161616); }
+
+        .section-banner-container { margin-bottom: 1.5rem; }
+        @media (max-width: 768px) {
+            .section-banner-container { margin-bottom: 1rem; }
         }
 
         /* =====================================================
@@ -485,7 +495,7 @@
 
     <!-- TOP BANNER (com máscara de fade) -->
     <div class="top-banner-container">
-        <img src="arco.png" alt="Arco - Frequência Mental" class="banner-img banner-height banner-fade">
+        <img src="arco.png" alt="Arco - Frequência Mental">
     </div>
 
     <!-- MOBILE CTA -->
@@ -531,9 +541,9 @@
     <!-- 2. EFEITO GOLEM -->
     <section id="golem" class="px-5 md:px-6 bg-dark-2 grain-overlay fade-top fade-bottom">
         <div class="section-banner-container">
-            <img src="filos01.png" alt="Criativo Filos 01" class="banner-img banner-height banner-fade">
+            <img src="filos01.png" alt="Criativo Filos 01">
         </div>
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center" style="position:relative;z-index:2;">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="image-box h-[380px] sm:h-[450px] md:h-[550px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
                 <img src="./ebook-golem.png" alt="E-book Efeito Golem" class="parallax-img">
             </div>
@@ -573,9 +583,9 @@
     <!-- 4. FILOSOFIA E CONSCIÊNCIA -->
     <section id="filosofia" class="px-5 md:px-6 bg-dark-4 grain-overlay fade-top fade-bottom">
         <div class="section-banner-container">
-            <img src="filos02.png" alt="Criativo Filos 02" class="banner-img banner-height banner-fade">
+            <img src="filos02.png" alt="Criativo Filos 02">
         </div>
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center" style="position:relative;z-index:2;">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="image-box h-[420px] sm:h-[480px] md:h-[600px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
                 <img src="./meditacao.png" alt="Meditação consciente" class="parallax-img">
             </div>
@@ -620,9 +630,9 @@
     <!-- 6. TRANSMUTAÇÃO -->
     <section class="section-transmutacao px-5 md:px-6 bg-dark-1 grain-overlay fade-top fade-bottom">
         <div class="section-banner-container">
-            <img src="filos03.png" alt="Criativo Filos 01" class="banner-img banner-height banner-fade">
+            <img src="filos03.png" alt="Criativo Filos 01">
         </div>
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center" style="position:relative;z-index:2;">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="space-y-7">
                 <h2 class="text-4xl md:text-6xl font-light serif leading-tight reveal-left">O Momento da <br><span class="italic font-normal">Transmutação</span>.</h2>
                 <p class="text-lg md:text-xl text-humanized opacity-85 reveal-up delay-200">
@@ -664,9 +674,9 @@
     <!-- 8. IMAGINE (BANNER COM FUSÃO VIA MÁSCARA) -->
     <section class="section-imagine px-0 md:px-0 bg-dark-3 grain-overlay fade-top fade-bottom">
         <div class="section-banner-container w-full">
-            <img src="filos04.jpg" alt="Banner Filosofia 04" class="banner-img banner-height banner-fade w-full">
+            <img src="filos04.jpg" alt="Banner Filosofia 04">
         </div>
-        <div class="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-12 md:gap-20 items-center" style="position:relative;z-index:2;">
+        <div class="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="space-y-7 reveal-left">
                 <p class="text-xl md:text-2xl text-humanized leading-relaxed font-medium">
                     Imagine acordar todas as manhãs com uma sensação renovada de energia e entusiasmo. Imagine enfrentar cada dia com uma clareza de propósito que o impulsiona em direção aos seus sonhos mais profundos. Isso não é apenas um sonho distante - é uma realidade ao seu alcance.
