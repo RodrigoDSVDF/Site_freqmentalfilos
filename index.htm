@@ -50,11 +50,7 @@
 
         /* =====================================================
            SISTEMA DE FUSÃO ENTRE SEÇÕES
-           Pseudo-elementos ::before (topo) e ::after (base)
-           com gradiente para a cor da seção vizinha.
         ===================================================== */
-
-        /* Pseudo-elementos base */
         .fade-top::before,
         .fade-bottom::after {
             content: "";
@@ -68,7 +64,6 @@
         .fade-top::before  { top: 0; }
         .fade-bottom::after { bottom: 0; }
 
-        /* Padding compensado para o conteúdo não ficar sob as faixas */
         .fade-top  { padding-top:    calc(5rem + var(--fade-h)); }
         .fade-bottom { padding-bottom: calc(5rem + var(--fade-h)); }
         @media (min-width: 768px) {
@@ -76,56 +71,26 @@
             .fade-bottom { padding-bottom: calc(8rem + var(--fade-h)); }
         }
 
-        /* ---------- SEÇÃO 2: bg-dark-2 (golem)
-           Topo: hero dark-1 → dark-2
-           Base: dark-2 → papiro */
+        /* Gradientes de fusão (mantidos para as transições entre seções) */
         #golem.fade-top::before    { background: linear-gradient(to bottom, var(--dark-1) 0%, transparent 100%); }
         #golem.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro)  100%); }
-
-        /* ---------- SEÇÃO 3: bg-papiro (stagnado)
-           Topo: dark-2 → papiro (reforço)
-           Base: papiro → dark-4 */
         .section-stagnado.fade-top::before    { background: linear-gradient(to bottom, var(--dark-2) 0%, transparent 100%); }
         .section-stagnado.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-4)  100%); }
-
-        /* ---------- SEÇÃO 4: bg-dark-4 (filosofia)
-           Topo: papiro → dark-4
-           Base: dark-4 → papiro */
         #filosofia.fade-top::before    { background: linear-gradient(to bottom, var(--papiro) 0%, transparent 100%); }
         #filosofia.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro) 100%); }
-
-        /* ---------- SEÇÃO 5: bg-papiro (pilares)
-           Topo: dark-4 → papiro
-           Base: papiro → dark-1 */
         .section-pilares.fade-top::before    { background: linear-gradient(to bottom, var(--dark-4) 0%, transparent 100%); }
         .section-pilares.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-1) 100%); }
-
-        /* ---------- SEÇÃO 6: bg-dark-1 (transmutação)
-           Topo: papiro → dark-1
-           Base: dark-1 → papiro */
         .section-transmutacao.fade-top::before    { background: linear-gradient(to bottom, var(--papiro) 0%, transparent 100%); }
         .section-transmutacao.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro) 100%); }
-
-        /* ---------- SEÇÃO 7: bg-papiro (juntos)
-           Topo: dark-1 → papiro
-           Base: papiro → dark-3 */
         .section-juntos.fade-top::before    { background: linear-gradient(to bottom, var(--dark-1) 0%, transparent 100%); }
         .section-juntos.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-3) 100%); }
-
-        /* ---------- SEÇÃO 8: bg-dark-3 (imagine)
-           Topo: papiro → dark-3
-           Base: dark-3 → papiro */
         .section-imagine.fade-top::before    { background: linear-gradient(to bottom, var(--papiro) 0%, transparent 100%); }
         .section-imagine.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro) 100%); }
-
-        /* ---------- SEÇÃO 9: bg-papiro (checkout)
-           Topo: dark-3 → papiro
-           Base: papiro → dark-1 (footer) */
         #obra.fade-top::before    { background: linear-gradient(to bottom, var(--dark-3) 0%, transparent 100%); }
         #obra.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-1) 100%); }
 
         /* =====================================================
-           TEXTURA GRAIN (atmosfera em seções escuras)
+           TEXTURA GRAIN
         ===================================================== */
         .grain-overlay::before {
             content: "";
@@ -138,36 +103,38 @@
         }
 
         /* =====================================================
-           BANNERS — IMAGENS SEM MÁSCARA (APARÊNCIA LIMPA)
+           BANNERS — ESTILO LIMPO E IMPACTANTE
         ===================================================== */
         .top-banner-container,
         .section-banner-container {
             position: relative;
             width: 100%;
-            text-align: center;
-            background-color: transparent;
-            overflow: visible;
-            margin-bottom: 0;
+            margin: 0;
+            padding: 0;
             z-index: 2;
+            line-height: 0; /* elimina espaços extras */
         }
         .top-banner-container img,
         .section-banner-container img {
             display: block;
-            margin: 0 auto;
             width: 100%;
-            max-width: 100%;
             height: auto;
-            object-fit: cover;        /* Preenche o espaço sem distorção */
-            box-shadow: none;
+            object-fit: cover;
             border: none;
-            opacity: 1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        /* Removidos os pseudo-elementos ::after que causavam fade extra */
-
-        .section-banner-container { margin-bottom: 1.5rem; }
+        /* Banner horizontal específico da seção 8 */
+        .banner-imagine {
+            width: 100%;
+            height: 380px; /* altura generosa no desktop */
+            object-fit: cover;
+            display: block;
+        }
         @media (max-width: 768px) {
-            .section-banner-container { margin-bottom: 1rem; }
+            .banner-imagine {
+                height: 220px; /* bom tamanho no mobile */
+            }
         }
 
         /* =====================================================
@@ -219,7 +186,7 @@
         }
 
         /* =====================================================
-           GLASS TAG
+           GLASS TAG / STEP NUMBERS / ETC (mantidos)
         ===================================================== */
         .glass-tag {
             background: rgba(255, 255, 255, 0.07);
@@ -227,10 +194,6 @@
             -webkit-backdrop-filter: blur(12px) saturate(150%);
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
-
-        /* =====================================================
-           STEP NUMBERS
-        ===================================================== */
         .step-number {
             font-size: 4rem;
             font-weight: 700;
@@ -246,9 +209,7 @@
             .step-number { font-size: 3rem; top: -0.5rem; left: 0.75rem; }
         }
 
-        /* =====================================================
-           ANIMAÇÕES DE ENTRADA
-        ===================================================== */
+        /* Animações */
         .reveal-up {
             opacity: 0; transform: translateY(30px);
             transition: opacity 1s cubic-bezier(0.25, 0.8, 0.35, 1), transform 1s cubic-bezier(0.25, 0.8, 0.35, 1);
@@ -286,14 +247,8 @@
         .delay-400 { transition-delay: 0.4s; }
         .delay-500 { transition-delay: 0.5s; }
 
-        /* =====================================================
-           PARALLAX
-        ===================================================== */
+        /* Parallax, floats, marquee, botões etc (mantidos na íntegra) */
         .parallax-img { will-change: transform; }
-
-        /* =====================================================
-           FLOATING ELEMENTS
-        ===================================================== */
         .float-slow   { animation: floatSlow 7s ease-in-out infinite; backdrop-filter: blur(10px); }
         .float-medium { animation: floatMedium 5s ease-in-out infinite; backdrop-filter: blur(10px); }
         .float-orbit  { animation: orbit 9s ease-in-out infinite; backdrop-filter: blur(10px); }
@@ -317,14 +272,8 @@
             100% { transform: translateX(0px) translateY(0px); }
         }
 
-        /* =====================================================
-           SCROLL-DRIVEN HORIZONTAL
-        ===================================================== */
         .scroll-slide { will-change: transform; }
 
-        /* =====================================================
-           MARQUEE — borda dourada sutil
-        ===================================================== */
         .marquee-wrapper {
             overflow: hidden;
             mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
@@ -343,9 +292,6 @@
             to   { transform: translateX(-50%); }
         }
 
-        /* =====================================================
-           BOTÃO MOBILE
-        ===================================================== */
         .chaos-button-wrapper {
             display: flex;
             flex-direction: column;
@@ -408,16 +354,10 @@
             .chaos-quote { font-size: 0.9rem; max-width: 280px; }
         }
 
-        /* =====================================================
-           UTILITÁRIOS
-        ===================================================== */
         .btn-link { display: inline-block; text-align: center; text-decoration: none; cursor: pointer; }
         .btn-block { display: block; width: 100%; }
         .no-x-overflow { overflow-x: hidden; }
 
-        /* =====================================================
-           HOVER TILT
-        ===================================================== */
         .tilt-card {
             transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s;
             border: 1px solid transparent;
@@ -428,9 +368,6 @@
             border-color: rgba(212, 175, 55, 0.25);
         }
 
-        /* =====================================================
-           HERO
-        ===================================================== */
         .hero-overlay {
             position: absolute; top: 0; left: 0;
             width: 100%; height: 100%;
@@ -443,9 +380,6 @@
             text-shadow: 0 4px 32px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.9);
         }
 
-        /* =====================================================
-           EFEITOS DOURADOS
-        ===================================================== */
         .golden-guarantee {
             background: linear-gradient(145deg, #F5E7A3 0%, #E2C068 40%, #C9A23D 70%, #B8862D 100%);
             color: #0a0a0a;
@@ -480,7 +414,6 @@
             border-color: #FFD700 !important;
         }
 
-        /* Glow ambiente atrás do botão CTA */
         .golden-button-wrap {
             position: relative;
         }
@@ -498,9 +431,6 @@
             50%       { opacity: 1;   transform: scale(1.04); }
         }
 
-        /* =====================================================
-           FOOTER
-        ===================================================== */
         .security-badge {
             display: inline-flex;
             align-items: center;
@@ -511,9 +441,6 @@
             letter-spacing: 0.2em;
         }
 
-        /* =====================================================
-           CORES BASE
-        ===================================================== */
         .bg-dark-1 { background-color: #0a0a0a; }
         .bg-dark-2 { background-color: #111111; }
         .bg-dark-3 { background-color: #161616; }
@@ -530,7 +457,7 @@
 
     <!-- MOBILE CTA -->
     <div class="chaos-button-wrapper">
-        <a href="https://freqmentalchat.nexus-manual.com.br" target="_blank" rel="noopener noreferrer" class="chaos-button" id="mobileChaosBtn">
+        <a href="https://freqmentalchat.nexus-manual.com.br" target="_blank" rel="noopener noreferrer" class="chaos-button">
             O DESPERTAR
         </a>
         <div class="chaos-quote">
@@ -569,8 +496,8 @@
     </div>
 
     <!-- 2. EFEITO GOLEM -->
-    <section id="golem" class="px-5 md:px-6 bg-dark-2 grain-overlay fade-top fade-bottom" data-scroll>
-        <div class="section-banner-container" style="position:relative;z-index:2;">
+    <section id="golem" class="px-5 md:px-6 bg-dark-2 grain-overlay fade-top fade-bottom">
+        <div class="section-banner-container">
             <img src="filos01.png" alt="Criativo Filos 01">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
@@ -611,8 +538,8 @@
     </section>
 
     <!-- 4. FILOSOFIA E CONSCIÊNCIA -->
-    <section id="filosofia" class="px-5 md:px-6 bg-dark-4 grain-overlay fade-top fade-bottom" data-scroll>
-        <div class="section-banner-container" style="position:relative;z-index:2;">
+    <section id="filosofia" class="px-5 md:px-6 bg-dark-4 grain-overlay fade-top fade-bottom">
+        <div class="section-banner-container">
             <img src="filos02.png" alt="Criativo Filos 02">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
@@ -659,7 +586,7 @@
 
     <!-- 6. TRANSMUTAÇÃO -->
     <section class="section-transmutacao px-5 md:px-6 bg-dark-1 grain-overlay fade-top fade-bottom">
-        <div class="section-banner-container" style="position:relative;z-index:2;">
+        <div class="section-banner-container">
             <img src="filos03.png" alt="Criativo Filos 01">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
@@ -701,13 +628,14 @@
         </div>
     </section>
 
-    <!-- 8. IMAGINE (COM BANNER HORIZONTAL LIMPO) -->
-    <section class="section-imagine px-5 md:px-6 bg-dark-3 grain-overlay fade-top fade-bottom">
-        <!-- Banner horizontal ajustado: sem fade, altura controlada -->
-        <div class="section-banner-container w-full" style="position:relative; z-index:2; max-height: 300px; overflow: hidden;">
-            <img src="filos04.jpg" alt="Banner Horizontal Filos 04" class="w-full h-full object-cover">
+    <!-- 8. IMAGINE (BANNER HORIZONTAL GRANDE E INTEGRADO) -->
+    <section class="section-imagine px-0 md:px-0 bg-dark-3 grain-overlay fade-top fade-bottom">
+        <!-- Banner horizontal ocupando toda a largura, sem margens -->
+        <div class="section-banner-container w-full">
+            <img src="filos04.jpg" alt="Banner Filosofia 04" class="banner-imagine">
         </div>
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
+        <!-- Conteúdo textual da seção, agora com padding lateral para legibilidade -->
+        <div class="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="space-y-7 reveal-left">
                 <p class="text-xl md:text-2xl text-humanized leading-relaxed font-medium">
                     Imagine acordar todas as manhãs com uma sensação renovada de energia e entusiasmo. Imagine enfrentar cada dia com uma clareza de propósito que o impulsiona em direção aos seus sonhos mais profundos. Isso não é apenas um sonho distante - é uma realidade ao seu alcance.
@@ -726,7 +654,7 @@
     </section>
 
     <!-- 9. CHECKOUT FINAL -->
-    <section id="obra" class="px-5 md:px-6 bg-papiro fade-top fade-bottom" data-scroll>
+    <section id="obra" class="px-5 md:px-6 bg-papiro fade-top fade-bottom">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center" style="position:relative;z-index:2;">
             <div class="relative md:order-1 order-2 flex justify-center reveal-scale">
                 <div class="image-box h-[420px] sm:h-[520px] md:h-[650px] w-full transform -rotate-1 shadow-2xl float-slow" style="animation-duration: 8s;">
