@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <style>
+        /* ========== RESET & BASE ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { overflow-x: hidden; width: 100%; position: relative; }
         body {
@@ -37,6 +38,7 @@
         }
         @media (min-width: 768px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
 
+        /* ========== FADES ENTRE SEÇÕES ========== */
         .fade-top::before, .fade-bottom::after {
             content: "";
             position: absolute;
@@ -72,6 +74,7 @@
         #obra.fade-top::before    { background: linear-gradient(to bottom, var(--dark-3) 0%, transparent 100%); }
         #obra.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-1) 100%); }
 
+        /* ========== GRÃO (TEXTURA) ========== */
         .grain-overlay::before {
             content: "";
             position: absolute;
@@ -83,8 +86,7 @@
         }
 
         /* =====================================================
-           BANNERS — TÉCNICA REFINADA (FUSÃO EM TODAS AS BORDAS)
-           Máscara composta: radial no centro + linear nas laterais
+           BANNERS — VINHETA CIRCULAR (NÉVOA) + TAMANHO 600px
         ===================================================== */
         .top-banner-container,
         .section-banner-container {
@@ -102,52 +104,33 @@
             display: block;
             margin: 0 auto;
             width: 100%;
-            max-width: 900px;
-            max-height: 600px;
+            max-width: 600px;       /* ← TAMANHO FIXO 600px */
             height: auto;
             object-fit: contain;
             border: none;
             box-shadow: none;
             
-            /* Máscara composta: gradiente linear horizontal (laterais) + radial (centro) */
-            -webkit-mask-composite: source-over;
-            mask-composite: add;
+            /* Máscara radial que dissolve todas as bordas (efeito vinheta) */
+            -webkit-mask-image: radial-gradient(
+                circle at 50% 50%,
+                rgba(0,0,0,1) 40%,
+                rgba(0,0,0,0.8) 65%,
+                rgba(0,0,0,0.3) 85%,
+                transparent 100%
+            );
+            mask-image: radial-gradient(
+                circle at 50% 50%,
+                rgba(0,0,0,1) 40%,
+                rgba(0,0,0,0.8) 65%,
+                rgba(0,0,0,0.3) 85%,
+                transparent 100%
+            );
             
-            -webkit-mask-image: 
-                linear-gradient(
-                    to right,
-                    transparent 0%,
-                    rgba(0,0,0,1) 15%,
-                    rgba(0,0,0,1) 85%,
-                    transparent 100%
-                ),
-                radial-gradient(
-                    ellipse 90% 70% at 50% 40%,
-                    rgba(0,0,0,1) 25%,
-                    rgba(0,0,0,0.7) 60%,
-                    transparent 100%
-                );
-            mask-image: 
-                linear-gradient(
-                    to right,
-                    transparent 0%,
-                    rgba(0,0,0,1) 15%,
-                    rgba(0,0,0,1) 85%,
-                    transparent 100%
-                ),
-                radial-gradient(
-                    ellipse 90% 70% at 50% 40%,
-                    rgba(0,0,0,1) 25%,
-                    rgba(0,0,0,0.7) 60%,
-                    transparent 100%
-                );
-            
-            /* Combina as duas máscaras (interseção) para apagar laterais */
-            -webkit-mask-composite: source-in;
-            mask-composite: intersect;
+            /* Sombra interna (névoa adicional) */
+            box-shadow: inset 0 0 60px 30px rgba(0,0,0,0.7);
         }
 
-        /* Fades superior e inferior (mantidos) */
+        /* Fade inferior para transição entre seções (mantido) */
         .top-banner-container::after,
         .section-banner-container::after {
             content: "";
@@ -155,7 +138,7 @@
             bottom: -2px;
             left: 0;
             width: 100%;
-            height: 180px;
+            height: 150px;
             pointer-events: none;
             z-index: 5;
             background: linear-gradient(
@@ -165,6 +148,7 @@
             );
         }
 
+        /* Fade superior opcional (se a imagem tocar o topo da seção) */
         .top-banner-container::before,
         .section-banner-container::before {
             content: "";
@@ -172,7 +156,7 @@
             top: -2px;
             left: 0;
             width: 100%;
-            height: 120px;
+            height: 100px;
             pointer-events: none;
             z-index: 5;
             background: linear-gradient(
@@ -182,27 +166,23 @@
             );
         }
 
-        /* Definição das cores de fade por seção */
+        /* Cores de fade por seção */
         .top-banner-container::after,
         .top-banner-container::before {
             --fade-color: #0a0a0a;
         }
-
         #golem .section-banner-container::after,
         #golem .section-banner-container::before {
             --fade-color: #111111;
         }
-
         #filosofia .section-banner-container::after,
         #filosofia .section-banner-container::before {
             --fade-color: #1a1a1a;
         }
-
         .section-transmutacao .section-banner-container::after,
         .section-transmutacao .section-banner-container::before {
             --fade-color: #0a0a0a;
         }
-
         .section-imagine .section-banner-container::after,
         .section-imagine .section-banner-container::before {
             --fade-color: #161616;
@@ -212,11 +192,13 @@
 
         @media (max-width: 768px) {
             .top-banner-container img,
-            .section-banner-container img { max-height: 320px; }
+            .section-banner-container img {
+                max-width: 100%;        /* Em mobile, ocupa a largura disponível */
+            }
             .top-banner-container::after,
-            .section-banner-container::after { height: 120px; }
+            .section-banner-container::after { height: 100px; }
             .top-banner-container::before,
-            .section-banner-container::before { height: 80px; }
+            .section-banner-container::before { height: 70px; }
             .section-banner-container { margin-bottom: 1rem; }
         }
 
@@ -276,6 +258,7 @@
         }
         @media (max-width: 768px) { .step-number { font-size: 3rem; top: -0.5rem; left: 0.75rem; } }
 
+        /* ========== REVEAL ANIMATIONS ========== */
         .reveal-up { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(0.25,0.8,0.35,1), transform 1s cubic-bezier(0.25,0.8,0.35,1); }
         .reveal-up.visible { opacity: 1; transform: translateY(0); }
         .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 1s cubic-bezier(0.25,0.8,0.35,1), transform 1s cubic-bezier(0.25,0.8,0.35,1); }
@@ -295,6 +278,7 @@
         .delay-400 { transition-delay: 0.4s; }
         .delay-500 { transition-delay: 0.5s; }
 
+        /* ========== PARALLAX & FLOATS ========== */
         .parallax-img { will-change: transform; }
         .float-slow   { animation: floatSlow 7s ease-in-out infinite; backdrop-filter: blur(10px); }
         .float-medium { animation: floatMedium 5s ease-in-out infinite; backdrop-filter: blur(10px); }
@@ -321,6 +305,7 @@
 
         .scroll-slide { will-change: transform; }
 
+        /* ========== MARQUEE ========== */
         .marquee-wrapper {
             overflow: hidden;
             mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
@@ -331,6 +316,7 @@
         .marquee-track { display: flex; gap: 4rem; animation: marquee 18s linear infinite; white-space: nowrap; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+        /* ========== BOTÕES E CTA ========== */
         .chaos-button-wrapper {
             display: flex; flex-direction: column; align-items: center;
             justify-content: center; text-align: center;
@@ -372,6 +358,7 @@
         .hero-content { position: relative; z-index: 2; }
         .hero-content h1, .hero-content .serif { text-shadow: 0 4px 32px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.9); }
 
+        /* ========== ELEMENTOS DOURADOS ========== */
         .golden-guarantee {
             background: linear-gradient(145deg, #F5E7A3 0%, #E2C068 40%, #C9A23D 70%, #B8862D 100%);
             color: #0a0a0a;
@@ -421,7 +408,7 @@
 </head>
 <body class="antialiased no-x-overflow bg-dark-1">
 
-    <!-- TOP BANNER -->
+    <!-- TOP BANNER (arco.png) -->
     <div class="top-banner-container">
         <img src="arco.png" alt="Arco - Frequência Mental">
     </div>
