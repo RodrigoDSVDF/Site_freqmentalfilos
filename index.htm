@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -103,7 +102,7 @@
         }
 
         /* =====================================================
-           BANNERS — NOVO SISTEMA DE FUSÃO SUAVE (APENAS BORDAS)
+           BANNERS — FUSÃO POR MÁSCARA DE TRANSPARÊNCIA
         ===================================================== */
         .top-banner-container,
         .section-banner-container {
@@ -113,25 +112,24 @@
             padding: 0;
             z-index: 2;
             line-height: 0;
-            background-color: transparent; /* fundo transparente para não interferir */
+            background-color: transparent;
         }
 
-        /* Imagem base: sem cortes, altura automática ou definida por classe */
+        /* Imagem base: sem cortes, altura natural */
         .banner-img {
             display: block;
             width: 100%;
-            height: auto;        /* altura natural da imagem, sem cortes */
-            object-fit: contain;  /* garante que a imagem inteira seja visível */
+            height: auto;
+            object-fit: contain;   /* preserva toda a imagem */
             border: none;
+            /* A máscara será aplicada aqui */
         }
 
-        /* Altura padronizada opcional – se quiser manter uma altura fixa, use .banner-height.
-           Porém, para evitar cortes, recomendo altura automática com max-height. */
+        /* Altura máxima para manter o banner proporcionado */
         .banner-height {
             max-height: 400px;
             width: 100%;
             object-fit: contain;
-            background-color: transparent;
         }
         @media (max-width: 768px) {
             .banner-height {
@@ -139,30 +137,29 @@
             }
         }
 
-        /* Pseudo-elemento de fusão: aplica um gradiente apenas nas bordas laterais e um sutil fade vertical */
-        .banner-overlay::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 3;
-            /* Gradiente que mescla SOMENTE as laterais e um toque no topo/base, deixando o centro limpo */
-            background: 
-                /* Laterais: transição da cor de fundo para transparente */
-                linear-gradient(to right, var(--overlay-color, #0a0a0a) 0%, transparent 15%, transparent 85%, var(--overlay-color, #0a0a0a) 100%),
-                /* Topo e base: transição muito sutil (apenas para suavizar) */
-                linear-gradient(to bottom, var(--overlay-color, #0a0a0a) 0%, transparent 10%, transparent 90%, var(--overlay-color, #0a0a0a) 100%);
-            opacity: 0.7; /* intensidade da fusão – ajustável */
+        /* Máscara de transparência que desbota as bordas laterais e superior/inferior */
+        .banner-fade {
+            /* Gradiente horizontal: laterais transparentes, centro opaco */
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+            
+            /* Gradiente vertical: topo e base levemente transparentes (apenas para suavizar) */
+            /* Combinamos com máscara composta para manter ambos os efeitos */
+            -webkit-mask-composite: source-in;
+            mask-composite: intersect;
         }
 
-        /* Variações por cor de fundo (definem a variável --overlay-color) */
-        .overlay-dark1 { --overlay-color: #0a0a0a; }
-        .overlay-dark2 { --overlay-color: #111111; }
-        .overlay-dark3 { --overlay-color: #161616; }
-        .overlay-dark4 { --overlay-color: #1a1a1a; }
+        /* Para navegadores que suportam múltiplas máscaras, usamos duas camadas */
+        .banner-fade {
+            -webkit-mask-image: 
+                linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%),
+                linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+            mask-image: 
+                linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%),
+                linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+            -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+        }
 
         /* =====================================================
            FUNDO PAPIRO
@@ -477,9 +474,9 @@
 </head>
 <body class="antialiased no-x-overflow bg-dark-1">
 
-    <!-- TOP BANNER -->
-    <div class="top-banner-container banner-overlay overlay-dark1">
-        <img src="arco.png" alt="Arco - Frequência Mental" class="banner-img banner-height">
+    <!-- TOP BANNER (com máscara de fade) -->
+    <div class="top-banner-container">
+        <img src="arco.png" alt="Arco - Frequência Mental" class="banner-img banner-height banner-fade">
     </div>
 
     <!-- MOBILE CTA -->
@@ -524,8 +521,8 @@
 
     <!-- 2. EFEITO GOLEM -->
     <section id="golem" class="px-5 md:px-6 bg-dark-2 grain-overlay fade-top fade-bottom">
-        <div class="section-banner-container banner-overlay overlay-dark2">
-            <img src="filos01.png" alt="Criativo Filos 01" class="banner-img banner-height">
+        <div class="section-banner-container">
+            <img src="filos01.png" alt="Criativo Filos 01" class="banner-img banner-height banner-fade">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="image-box h-[380px] sm:h-[450px] md:h-[550px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
@@ -566,8 +563,8 @@
 
     <!-- 4. FILOSOFIA E CONSCIÊNCIA -->
     <section id="filosofia" class="px-5 md:px-6 bg-dark-4 grain-overlay fade-top fade-bottom">
-        <div class="section-banner-container banner-overlay overlay-dark4">
-            <img src="filos02.png" alt="Criativo Filos 02" class="banner-img banner-height">
+        <div class="section-banner-container">
+            <img src="filos02.png" alt="Criativo Filos 02" class="banner-img banner-height banner-fade">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="image-box h-[420px] sm:h-[480px] md:h-[600px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
@@ -613,8 +610,8 @@
 
     <!-- 6. TRANSMUTAÇÃO -->
     <section class="section-transmutacao px-5 md:px-6 bg-dark-1 grain-overlay fade-top fade-bottom">
-        <div class="section-banner-container banner-overlay overlay-dark1">
-            <img src="filos03.png" alt="Criativo Filos 01" class="banner-img banner-height">
+        <div class="section-banner-container">
+            <img src="filos03.png" alt="Criativo Filos 01" class="banner-img banner-height banner-fade">
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="space-y-7">
@@ -655,10 +652,10 @@
         </div>
     </section>
 
-    <!-- 8. IMAGINE (BANNER COM FUSÃO SUAVE) -->
+    <!-- 8. IMAGINE (BANNER COM FUSÃO VIA MÁSCARA) -->
     <section class="section-imagine px-0 md:px-0 bg-dark-3 grain-overlay fade-top fade-bottom">
-        <div class="section-banner-container banner-overlay overlay-dark3 w-full">
-            <img src="filos04.jpg" alt="Banner Filosofia 04" class="banner-img banner-height">
+        <div class="section-banner-container w-full">
+            <img src="filos04.jpg" alt="Banner Filosofia 04" class="banner-img banner-height banner-fade w-full">
         </div>
         <div class="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="space-y-7 reveal-left">
