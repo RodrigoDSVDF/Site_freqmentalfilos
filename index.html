@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Frequência Mental Poderosa - O Despertar do Rugido</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* ========== RESET & BASE ========== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; width: 100%; position: relative; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        .serif { font-family: 'Playfair Display', serif; }
+        .text-humanized { line-height: 1.8; letter-spacing: -0.01em; }
+
+        :root {
+            --dark-1: #0a0a0a;
+            --dark-2: #111111;
+            --dark-3: #161616;
+            --dark-4: #1a1a1a;
+            --dark-5: #0d0d0d;
+            --papiro: #e8d5a5;
+            --fade-h: 120px;
+        }
+        @media (max-width: 768px) { :root { --fade-h: 80px; } }
+
+        section {
+            position: relative;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+        @media (min-width: 768px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
+
+        /* ========== FADES ENTRE SEÇÕES ========== */
+        .fade-top::before, .fade-bottom::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: var(--fade-h);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .fade-top::before  { top: 0; }
+        .fade-bottom::after { bottom: 0; }
+        .fade-top  { padding-top:    calc(5rem + var(--fade-h)); }
+        .fade-bottom { padding-bottom: calc(5rem + var(--fade-h)); }
+        @media (min-width: 768px) {
+            .fade-top    { padding-top:    calc(8rem + var(--fade-h)); }
+            .fade-bottom { padding-bottom: calc(8rem + var(--fade-h)); }
+        }
+
+        #golem.fade-top::before    { background: linear-gradient(to bottom, var(--dark-1) 0%, transparent 100%); }
+        #golem.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro) 100%); }
+        .section-stagnado.fade-top::before    { background: linear-gradient(to bottom, var(--dark-2) 0%, transparent 100%); }
+        .section-stagnado.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-4) 100%); }
+        #filosofia.fade-top::before    { background: linear-gradient(to bottom, var(--papiro) 0%, transparent 100%); }
+        #filosofia.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro) 100%); }
+        .section-pilares.fade-top::before    { background: linear-gradient(to bottom, var(--dark-4) 0%, transparent 100%); }
+        .section-pilares.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-1) 100%); }
+        .section-transmutacao.fade-top::before    { background: linear-gradient(to bottom, var(--papiro) 0%, transparent 100%); }
+        .section-transmutacao.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro) 100%); }
+        .section-juntos.fade-top::before    { background: linear-gradient(to bottom, var(--dark-1) 0%, transparent 100%); }
+        .section-juntos.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-3) 100%); }
+        .section-imagine.fade-top::before    { background: linear-gradient(to bottom, var(--papiro) 0%, transparent 100%); }
+        .section-imagine.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--papiro) 100%); }
+        #obra.fade-top::before    { background: linear-gradient(to bottom, var(--dark-3) 0%, transparent 100%); }
+        #obra.fade-bottom::after  { background: linear-gradient(to bottom, transparent 0%, var(--dark-1) 100%); }
+
+        /* ========== GRÃO (TEXTURA) ========== */
+        .grain-overlay::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        /* =====================================================
+           BANNERS — VINHETA CIRCULAR (NÉVOA) + TAMANHO 600px
+        ===================================================== */
+        .top-banner-container,
+        .section-banner-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            background-color: transparent;
+            overflow: visible;
+            padding: 0;
+            isolation: isolate;
+        }
+
+        .top-banner-container img,
+        .section-banner-container img {
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            object-fit: contain;
+            border: none;
+            box-shadow: none;
+            -webkit-mask-image: radial-gradient(
+                circle at 50% 50%,
+                rgba(0,0,0,1) 40%,
+                rgba(0,0,0,0.8) 65%,
+                rgba(0,0,0,0.3) 85%,
+                transparent 100%
+            );
+            mask-image: radial-gradient(
+                circle at 50% 50%,
+                rgba(0,0,0,1) 40%,
+                rgba(0,0,0,0.8) 65%,
+                rgba(0,0,0,0.3) 85%,
+                transparent 100%
+            );
+            box-shadow: inset 0 0 60px 30px rgba(0,0,0,0.7);
+        }
+
+        .top-banner-container::after,
+        .section-banner-container::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            pointer-events: none;
+            z-index: 5;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                var(--fade-color, #0a0a0a) 85%
+            );
+        }
+
+        .top-banner-container::before,
+        .section-banner-container::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+            z-index: 5;
+            background: linear-gradient(
+                to top,
+                transparent 0%,
+                var(--fade-color, #0a0a0a) 85%
+            );
+        }
+
+        .top-banner-container::after,
+        .top-banner-container::before {
+            --fade-color: #0a0a0a;
+        }
+        #golem .section-banner-container::after,
+        #golem .section-banner-container::before {
+            --fade-color: #111111;
+        }
+        #filosofia .section-banner-container::after,
+        #filosofia .section-banner-container::before {
+            --fade-color: #1a1a1a;
+        }
+        .section-transmutacao .section-banner-container::after,
+        .section-transmutacao .section-banner-container::before {
+            --fade-color: #0a0a0a;
+        }
+        .section-imagine .section-banner-container::after,
+        .section-imagine .section-banner-container::before {
+            --fade-color: #161616;
+        }
+
+        .section-banner-container { margin-bottom: 2rem; }
+
+        /* Reduzir espaçamento superior específico para o banner da seção Golem */
+        #golem .section-banner-container {
+            margin-top: -2rem;  /* compensa o padding da seção */
+        }
+        @media (min-width: 768px) {
+            #golem .section-banner-container {
+                margin-top: -3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-banner-container img,
+            .section-banner-container img {
+                max-width: 100%;
+            }
+            .top-banner-container::after,
+            .section-banner-container::after { height: 100px; }
+            .top-banner-container::before,
+            .section-banner-container::before { height: 70px; }
+            .section-banner-container { margin-bottom: 1rem; }
+            #golem .section-banner-container { margin-top: -1rem; }
+        }
+
+        /* =====================================================
+           FUNDO PAPIRO
+        ===================================================== */
+        .bg-papiro {
+            background-color: #e8d5a5;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.08"/></svg>');
+            color: #1f1f1f;
+        }
+        .bg-papiro h1, .bg-papiro h2, .bg-papiro h3, .bg-papiro h4,
+        .bg-papiro p, .bg-papiro span, .bg-papiro div { color: #1f1f1f; }
+        .bg-papiro .glass-tag { background: rgba(0,0,0,0.05); backdrop-filter: blur(4px); border: 1px solid rgba(0,0,0,0.1); color: #1f1f1f; }
+        .bg-papiro .step-number { color: #1f1f1f; opacity: 0.08; }
+        .bg-papiro .golden-guarantee { color: #0a0a0a; }
+        .bg-papiro .golden-button { color: #0a0a0a !important; }
+        .bg-papiro .tilt-card { border-color: rgba(0,0,0,0.1); }
+
+        /* =====================================================
+           IMAGE BOXES
+        ===================================================== */
+        .image-box {
+            overflow: hidden;
+            border-radius: 2rem;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+            background-color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transform: translateZ(0);
+        }
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            will-change: transform;
+            transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+        .image-box:hover img { transform: scale(1.02); }
+        @media (max-width: 768px) { .image-box { min-height: 280px; max-height: 440px; } }
+
+        .glass-tag {
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(12px) saturate(150%);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+        .step-number {
+            font-size: 4rem; font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            position: absolute; top: -0.8rem; left: 1rem;
+            opacity: 0.08; line-height: 1;
+            pointer-events: none; color: currentColor;
+        }
+        @media (max-width: 768px) { .step-number { font-size: 3rem; top: -0.5rem; left: 0.75rem; } }
+
+        /* ========== REVEAL ANIMATIONS ========== */
+        .reveal-up { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(0.25,0.8,0.35,1), transform 1s cubic-bezier(0.25,0.8,0.35,1); }
+        .reveal-up.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 1s cubic-bezier(0.25,0.8,0.35,1), transform 1s cubic-bezier(0.25,0.8,0.35,1); }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 1s cubic-bezier(0.25,0.8,0.35,1), transform 1s cubic-bezier(0.25,0.8,0.35,1); }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+        .reveal-diag-left { opacity: 0; transform: translateX(-30px) translateY(20px); transition: opacity 1.1s cubic-bezier(0.25,0.8,0.35,1), transform 1.1s cubic-bezier(0.25,0.8,0.35,1); }
+        .reveal-diag-left.visible { opacity: 1; transform: translateX(0) translateY(0); }
+        .reveal-diag-right { opacity: 0; transform: translateX(30px) translateY(20px); transition: opacity 1.1s cubic-bezier(0.25,0.8,0.35,1), transform 1.1s cubic-bezier(0.25,0.8,0.35,1); }
+        .reveal-diag-right.visible { opacity: 1; transform: translateX(0) translateY(0); }
+        .reveal-scale { opacity: 0; transform: scale(0.95) translateY(16px); transition: opacity 1s cubic-bezier(0.25,0.8,0.35,1), transform 1s cubic-bezier(0.25,0.8,0.35,1); }
+        .reveal-scale.visible { opacity: 1; transform: scale(1) translateY(0); }
+
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
+        .delay-500 { transition-delay: 0.5s; }
+
+        /* ========== PARALLAX & FLOATS ========== */
+        .parallax-img { will-change: transform; }
+        .float-slow   { animation: floatSlow 7s ease-in-out infinite; backdrop-filter: blur(10px); }
+        .float-medium { animation: floatMedium 5s ease-in-out infinite; backdrop-filter: blur(10px); }
+        .float-orbit  { animation: orbit 9s ease-in-out infinite; backdrop-filter: blur(10px); }
+
+        @keyframes floatSlow {
+            0%   { transform: translateY(0px) translateX(0px); }
+            33%  { transform: translateY(-7px) translateX(4px); }
+            66%  { transform: translateY(-3px) translateX(-5px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+        @keyframes floatMedium {
+            0%   { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            50%  { transform: translateY(-8px) translateX(5px) rotate(1deg); }
+            100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+        }
+        @keyframes orbit {
+            0%   { transform: translateX(0px) translateY(0px); }
+            25%  { transform: translateX(8px) translateY(-5px); }
+            50%  { transform: translateX(0px) translateY(-10px); }
+            75%  { transform: translateX(-7px) translateY(-4px); }
+            100% { transform: translateX(0px) translateY(0px); }
+        }
+
+        .scroll-slide { will-change: transform; }
+
+        /* ========== MARQUEE ========== */
+        .marquee-wrapper {
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+            border-top: 1px solid rgba(212,175,55,0.15);
+            border-bottom: 1px solid rgba(212,175,55,0.15);
+        }
+        .marquee-track { display: flex; gap: 4rem; animation: marquee 18s linear infinite; white-space: nowrap; }
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* ========== BOTÕES E CTA ========== */
+        .chaos-button-wrapper {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; text-align: center;
+            margin-top: 1rem; margin-bottom: 2rem; width: 100%;
+        }
+        .chaos-button {
+            background-color: #e5e5e5; color: #0a0a0a;
+            padding: 1rem 2rem; border-radius: 60px;
+            font-weight: 700; font-size: 1rem; letter-spacing: 0.1em;
+            text-transform: uppercase; transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: auto; min-width: 240px; text-align: center;
+            font-family: 'Inter', sans-serif; cursor: pointer;
+            text-decoration: none; display: inline-block;
+        }
+        .chaos-button:hover { background-color: #ffffff; color: #000000; transform: scale(1.03); border-color: #ffffff; }
+        .chaos-quote {
+            margin-top: 1rem; font-family: 'Playfair Display', serif;
+            font-style: italic; font-size: 1rem; line-height: 1.5;
+            color: #cccccc; max-width: 320px; font-weight: 500;
+            letter-spacing: -0.01em; padding: 0 1rem;
+        }
+        .chaos-author { font-size: 0.75rem; font-family: 'Inter', sans-serif; font-style: normal; letter-spacing: 0.05em; opacity: 0.6; margin-top: 0.25rem; }
+        @media (min-width: 768px) { .chaos-button-wrapper { display: none; } }
+        @media (max-width: 480px) {
+            .chaos-button { font-size: 0.85rem; padding: 0.85rem 1.5rem; min-width: 220px; }
+            .chaos-quote { font-size: 0.9rem; max-width: 280px; }
+        }
+
+        .btn-link { display: inline-block; text-align: center; text-decoration: none; cursor: pointer; }
+        .btn-block { display: block; width: 100%; }
+        .no-x-overflow { overflow-x: hidden; }
+
+        .tilt-card { transition: transform 0.4s cubic-bezier(0.2,0.9,0.3,1), box-shadow 0.4s ease, border-color 0.3s; border: 1px solid transparent; }
+        .tilt-card:hover { transform: translateY(-4px) rotate(0.3deg); box-shadow: 0 36px 60px rgba(0,0,0,0.8); border-color: rgba(212,175,55,0.25); }
+
+        /* ========== OVERLAY MAIS CLARO PARA O HERO (IMAGEM DO LEÃO) ========== */
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 100%);
+            pointer-events: none; z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; }
+        .hero-content h1, .hero-content .serif { text-shadow: 0 4px 32px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.9); }
+
+        /* ========== ELEMENTOS DOURADOS ========== */
+        .golden-guarantee {
+            background: linear-gradient(145deg, #F5E7A3 0%, #E2C068 40%, #C9A23D 70%, #B8862D 100%);
+            color: #0a0a0a;
+            box-shadow: 0 10px 30px rgba(184,134,45,0.5), 0 0 0 2px rgba(255,215,0,0.3);
+            border: 2px solid #FFD700; transition: all 0.3s ease;
+        }
+        .golden-guarantee:hover { animation: softPulse 2s infinite; transform: scale(1.02); }
+        @keyframes softPulse {
+            0%   { box-shadow: 0 10px 30px rgba(184,134,45,0.5), 0 0 0 2px rgba(255,215,0,0.3); }
+            50%  { box-shadow: 0 15px 40px rgba(184,134,45,0.7), 0 0 0 6px rgba(255,215,0,0.2); }
+            100% { box-shadow: 0 10px 30px rgba(184,134,45,0.5), 0 0 0 2px rgba(255,215,0,0.3); }
+        }
+
+        .golden-button {
+            background: linear-gradient(145deg, #F5E7A3 0%, #E2C068 40%, #C9A23D 70%, #B8862D 100%);
+            color: #0a0a0a !important; border: 2px solid #FFD700 !important;
+            box-shadow: 0 15px 30px rgba(184,134,45,0.4), 0 0 0 2px rgba(255,215,0,0.2) !important;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5); font-weight: 800;
+            transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+        }
+        .golden-button:hover {
+            background: linear-gradient(145deg, #FFEFB5 0%, #F5D980 40%, #E2C068 70%, #D4A94A 100%);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 25px 40px rgba(184,134,45,0.6), 0 0 0 4px rgba(255,215,0,0.3) !important;
+            color: #000 !important; border-color: #FFD700 !important;
+        }
+        .golden-button-wrap { position: relative; }
+        .golden-button-wrap::before {
+            content: ""; position: absolute; inset: -20px -30px;
+            background: radial-gradient(ellipse at center, rgba(212,175,55,0.18) 0%, transparent 70%);
+            border-radius: 60px; pointer-events: none;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50%       { opacity: 1;   transform: scale(1.04); }
+        }
+
+        .security-badge { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; opacity: 0.5; font-size: 0.7rem; letter-spacing: 0.2em; }
+
+        .bg-dark-1 { background-color: #0a0a0a; }
+        .bg-dark-2 { background-color: #111111; }
+        .bg-dark-3 { background-color: #161616; }
+        .bg-dark-4 { background-color: #1a1a1a; }
+        .bg-dark-5 { background-color: #0d0d0d; }
+
+        /* ========== NOVOS ESTILOS PARA FRASES FILOSÓFICAS ========== */
+        .frase-filosofo {
+            margin-top: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid #b8860b;
+            color: #e5e5e5;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-style: italic;
+            border-radius: 0 12px 12px 0;
+            backdrop-filter: blur(4px);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            font-weight: 400;
+        }
+        /* Melhor legibilidade para frases em fundos escuros (ex: Nietzsche) */
+        .section-imagine .frase-filosofo,
+        .bg-dark-3 .frase-filosofo {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.07);
+            border-left-color: #d4af37;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .bg-papiro .frase-filosofo {
+            background: rgba(0, 0, 0, 0.05);
+            color: #1f1f1f;
+            border-left-color: #7a5c1e;
+        }
+
+        /* ========== NOVA SEÇÃO PROMESSA EXISTENCIAL ========== */
+        .promessa-existencial {
+            text-align: center;
+            padding: 2rem 1rem 0;
+        }
+        .promessa-existencial h2 {
+            font-size: 3rem;
+            letter-spacing: 1px;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+        .triade-promessas {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .promessa-item {
+            flex: 1 1 280px;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2rem;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,215,0,0.15);
+            transition: transform 0.3s;
+        }
+        .promessa-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212,175,55,0.4);
+        }
+        .numero-promessa {
+            display: block;
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+            color: #b8860b;
+            opacity: 0.5;
+            line-height: 1;
+            margin-bottom: -5px;
+        }
+        .promessa-item h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .promessa-item p {
+            opacity: 0.85;
+            font-size: 1rem;
+        }
+        .assinatura-chamado {
+            margin-top: 3rem;
+            font-style: italic;
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+        @media (max-width: 768px) {
+            .promessa-existencial h2 { font-size: 2.2rem; }
+            .promessa-item h3 { font-size: 1.5rem; }
+            .triade-promessas { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body class="antialiased no-x-overflow bg-dark-1">
+
+    <!-- TOP BANNER (arco.webp) -->
+    <div class="top-banner-container" id="banner-arco">
+        <img src="arco.webp" alt="Arco - Frequência Mental">
+    </div>
+
+    <!-- MOBILE CTA -->
+    <div class="chaos-button-wrapper">
+        <a href="https://freqmentalchat.nexus-manual.com.br" target="_blank" rel="noopener noreferrer" class="chaos-button">
+            O DESPERTAR
+        </a>
+        <div class="chaos-quote">
+            "Em breve serás cinzas e um nome; menos ainda, nem isso. O desafio é viver cada ação como se fosse a última, não com pressa de acabar, mas com a gravidade de quem esculpe o infinito no instante." 
+            <div class="chaos-author">— Marco Aurélio</div>
+        </div>
+    </div>
+
+    <!-- 1. HERO (agora com overlay mais claro) -->
+    <header class="min-h-screen flex items-center px-5 md:px-6 py-12 relative overflow-hidden bg-cover bg-center bg-no-repeat" style="background-image: url('./hero-leao.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="max-w-7xl mx-auto w-full hero-content">
+            <div class="max-w-2xl text-white space-y-7">
+                <div class="text-2xl md:text-3xl font-bold tracking-tighter serif italic opacity-90 reveal-up">Frequência Mental.</div>
+                <h1 class="text-5xl sm:text-6xl md:text-8xl font-light serif leading-[1.1] tracking-tight reveal-up delay-100">
+                    O silêncio que precede o seu <span class="italic font-normal">rugido</span>.
+                </h1>
+                <p class="text-lg md:text-2xl text-humanized opacity-90 max-w-lg reveal-up delay-200">
+                    A desmotivação não é ausência de força; é uma frequência que está desalinhada. Recupere a sua potência mental hoje.
+                </p>
+                <div class="pt-4 reveal-up delay-300">
+                    <a href="https://freqmentalchat.nexus-manual.com.br" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-black px-10 md:px-12 py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:scale-105 transition-all shadow-xl btn-link">
+                        Assumir o controle
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MARQUEE -->
+    <div class="py-6 bg-[#111] text-[#e5e5e5] overflow-hidden marquee-wrapper">
+        <div class="marquee-track text-xs uppercase tracking-[0.4em] opacity-60 select-none">
+            <span>Frequência Mental Poderosa</span><span class="text-yellow-600/60">✦</span><span>Despertar do Rugido</span><span class="text-yellow-600/60">✦</span><span>Transformação Interior</span><span class="text-yellow-600/60">✦</span><span>Efeito Golem</span><span class="text-yellow-600/60">✦</span><span>Purificação Mental</span><span class="text-yellow-600/60">✦</span><span>Sintonização Vibracional</span><span class="text-yellow-600/60">✦</span>
+            <span>Frequência Mental Poderosa</span><span class="text-yellow-600/60">✦</span><span>Despertar do Rugido</span><span class="text-yellow-600/60">✦</span><span>Transformação Interior</span><span class="text-yellow-600/60">✦</span><span>Efeito Golem</span><span class="text-yellow-600/60">✦</span><span>Purificação Mental</span><span class="text-yellow-600/60">✦</span><span>Sintonização Vibracional</span><span class="text-yellow-600/60">✦</span>
+        </div>
+    </div>
+
+    <!-- 2. EFEITO GOLEM (com banner mais próximo do topo) -->
+    <section id="golem" class="px-5 md:px-6 bg-dark-2 grain-overlay fade-top fade-bottom">
+        <div class="section-banner-container" id="banner-filos01" style="position:relative;z-index:2;">
+            <img src="filos01.webp" alt="Criativo Filos 01">
+        </div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
+            <div class="image-box h-[380px] sm:h-[450px] md:h-[550px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
+                <img src="./ebook-golem.png" alt="E-book Efeito Golem" class="parallax-img">
+            </div>
+            <div class="space-y-7 md:order-2 order-1">
+                <span class="glass-tag px-5 py-1.5 text-[10px] font-bold tracking-[0.3em] uppercase rounded-full inline-block reveal-up">Recurso Gratuito</span>
+                <h2 class="text-4xl md:text-7xl font-light serif leading-tight reveal-left delay-100">O Peso Invisível: <br><span class="italic">Efeito Golem</span>.</h2>
+                <p class="text-base md:text-xl text-humanized opacity-85 reveal-up delay-200">
+                    Descubra como as expectativas dos outros moldaram seus limites. Este guia é o primeiro passo para quebrar esse padrão.
+                </p>
+                <div class="reveal-up delay-300">
+                    <a href="./glm.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-4 px-8 py-5 bg-[#e5e5e5] text-black rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-white transition-all shadow-2xl w-fit">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Baixar Guia Gratuito (PDF)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. PORQUÊ SE SENTE ESTAGNADO? -->
+    <section class="section-stagnado px-5 md:px-6 bg-papiro fade-top fade-bottom">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center" style="position:relative;z-index:2;">
+            <div class="space-y-7">
+                <h2 class="text-4xl md:text-6xl font-light serif leading-tight reveal-left">Está cansado de sentir-se desmotivado <br><span class="italic underline decoration-2">e sem propósito na vida?</span></h2>
+                <div class="text-base md:text-lg text-humanized opacity-90 space-y-4 reveal-up delay-200">
+                    <p>Você não está sozinho. Muitas pessoas lutam com esses sentimentos todos os dias, mas a boa notícia é que você não precisa mais enfrentá-los sozinho.</p>
+                    <p>Com o e-book <span class="font-semibold">"Frequência Mental Poderosa"</span>, você finalmente terá as ferramentas necessárias para superar esse ciclo de desmotivação e encontrar um propósito significativo em sua vida.</p>
+                    <p>Ao mergulhar nas páginas deste livro, você descobrirá estratégias e práticas para reprogramar sua mente, cultivar uma mentalidade positiva e desenvolver hábitos que o levarão ao sucesso duradouro.</p>
+                </div>
+            </div>
+            <div class="image-box h-[380px] sm:h-[450px] md:h-[520px] w-full reveal-diag-right tilt-card">
+                <img src="./origem-conflito.jpg" alt="Superação da desmotivação" class="parallax-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. FILOSOFIA E CONSCIÊNCIA -->
+    <section id="filosofia" class="px-5 md:px-6 bg-dark-4 grain-overlay fade-top fade-bottom">
+        <div class="section-banner-container" id="banner-filos02" style="position:relative;z-index:2;">
+            <img src="filos02.webp" alt="Criativo Filos 02">
+        </div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
+            <div class="image-box h-[420px] sm:h-[480px] md:h-[600px] w-full md:order-1 order-2 reveal-diag-left tilt-card">
+                <img src="./meditacao.png" alt="Meditação consciente" class="parallax-img">
+            </div>
+            <div class="space-y-7 md:order-2 order-1">
+                <span class="text-xs uppercase tracking-[0.3em] opacity-60 block font-semibold reveal-up">Consciência</span>
+                <h2 class="text-4xl md:text-6xl font-light serif leading-snug reveal-right delay-100">Você não nasceu para apenas <span class="italic underline decoration-1">suportar</span> o dia.</h2>
+                <p class="text-xl md:text-2xl text-humanized text-gray-300 italic font-medium reveal-up delay-200">
+                    "O desânimo é o grito de uma alma que possui um potencial maior do que a rotina que a aprisiona."
+                </p>
+                <p class="text-base md:text-lg text-humanized opacity-80 reveal-up delay-300">
+                   Imagine acordar todas as manhãs com uma sensação renovada de energia e entusiasmo. Imagine enfrentar cada dia com uma clareza de propósito que o impulsiona em direção aos seus sonhos mais profundos. Isso não é apenas um sonho distante - é uma realidade ao seu alcance.
+                </p>
+                <p class="reveal-up delay-400">Deixe para trás a sensação de desânimo e falta de direção. Em vez disso, embarque em uma jornada de autodescoberta e crescimento pessoal que o capacitará a alcançar todo o seu potencial.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. NOVA SEÇÃO: CHAMADO DO GUERREIRO INTERIOR (SUBSTITUI A TRINDADE) -->
+    <section class="section-pilares px-5 md:px-6 bg-papiro overflow-hidden fade-top fade-bottom">
+        <div class="max-w-7xl mx-auto promessa-existencial" style="position:relative;z-index:2;">
+            <h2 class="serif italic reveal-up">O Chamado do Guerreiro Interior</h2>
+            <div class="triade-promessas">
+                <!-- Item 1 -->
+                <div class="promessa-item reveal-diag-left tilt-card delay-100">
+                    <span class="numero-promessa">I</span>
+                    <h3>Aumente sua Vontade</h3>
+                    <p>Quebre o ciclo do adiamento e ative o modo "Criador Incansável". Elimine os parasitas mentais que drenam sua energia.</p>
+                </div>
+                <!-- Item 2 -->
+                <div class="promessa-item reveal-up tilt-card delay-200">
+                    <span class="numero-promessa">II</span>
+                    <h3>Encontre seu Sentido Existencial</h3>
+                    <p>Substitua o vazio da repetição pelo fogo de um propósito inegociável. Sintonize-se com a frequência do seu verdadeiro eu.</p>
+                </div>
+                <!-- Item 3 -->
+                <div class="promessa-item reveal-diag-right tilt-card delay-300">
+                    <span class="numero-promessa">III</span>
+                    <h3>Desperte o Leão Interior</h3>
+                    <p>Transforme a clareza mental em rugido e resultados tangíveis no mundo físico. Manifeste a vida que você merece.</p>
+                </div>
+            </div>
+            <p class="assinatura-chamado reveal-up delay-400">Assuma o controle da narrativa. A caverna espera que você volte com os olhos ardendo.</p>
+        </div>
+    </section>
+
+    <!-- 6. TRANSMUTAÇÃO -->
+    <section class="section-transmutacao px-5 md:px-6 bg-dark-1 grain-overlay fade-top fade-bottom">
+        <div class="section-banner-container" id="banner-filos03" style="position:relative;z-index:2;">
+            <img src="filos03.webp" alt="Criativo Filos 03">
+        </div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
+            <div class="space-y-7">
+                <h2 class="text-4xl md:text-6xl font-light serif leading-tight reveal-left">O Momento da <br><span class="italic font-normal">Transmutação</span>.</h2>
+                <p class="text-lg md:text-xl text-humanized opacity-85 reveal-up delay-200">
+                    Quando a mente se alinha com o propósito, o medo desaparece. Não porque os problemas sumiram, mas porque você se tornou maior do que eles.
+                </p>
+                <p class="text-base md:text-lg text-humanized opacity-75 reveal-up delay-300">
+                    Este não é apenas um e-book. É o resgate de uma autoridade que você sempre possuiu, mas que lhe ensinaram a esquecer, e como dizia os gregos precisa ser rememorada.
+                </p>
+            </div>
+            <div class="image-box h-[380px] sm:h-[450px] md:h-[520px] w-full reveal-diag-right tilt-card">
+                <img src="./foco-absoluto.png" alt="Foco e poder" class="parallax-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. JUNTOS NESSA JORNADA -->
+    <section class="section-juntos px-5 md:px-6 bg-papiro fade-top fade-bottom">
+        <div class="max-w-7xl mx-auto text-center mb-12 md:mb-16 reveal-up" style="position:relative;z-index:2;">
+            <h2 class="text-3xl md:text-5xl font-light serif italic">Vamos Juntos nessa jornada de transformação</h2>
+        </div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center" style="position:relative;z-index:2;">
+            <div class="space-y-7 reveal-left">
+                <p class="text-base md:text-xl text-humanized opacity-85 leading-relaxed">A caminhada solitária muitas vezes é a mais difícil. Mas você não precisa mais carregar esse fardo sozinho. Ao seu lado, há uma comunidade de pessoas que, assim como você, decidiram romper as correntes da desmotivação e abraçar uma vida com propósito e significado.</p>
+                <p class="text-base md:text-xl text-humanized opacity-85 leading-relaxed">Cada passo dado em direção à sua transformação ecoa em todos que compartilham desse mesmo ideal. Juntos, somos mais fortes. Juntos, despertamos o rugido que há dentro de cada um de nós.</p>
+                <p class="text-base md:text-xl text-humanized opacity-85 leading-relaxed font-medium italic">Não espere mais. O momento de agir é agora, e você não está sozinho nesta jornada.</p>
+            </div>
+            <div class="image-box h-[380px] sm:h-[450px] md:h-[520px] w-full reveal-right tilt-card">
+                <img src="./juntos.png" alt="Juntos nessa jornada" class="parallax-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. IMAGINE (com frase de Nietzsche mais legível) -->
+    <section class="section-imagine px-5 md:px-6 bg-dark-3 grain-overlay fade-top fade-bottom">
+        <div class="section-banner-container" id="banner-filos04" style="position:relative;z-index:2;">
+            <img src="filos04.webp" alt="Criativo Filos 04">
+        </div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
+            <div class="space-y-7 reveal-left">
+                <p class="text-xl md:text-2xl text-humanized leading-relaxed font-medium">Imagine acordar todas as manhãs com uma sensação renovada de energia e entusiasmo. Imagine enfrentar cada dia com uma clareza de propósito que o impulsiona em direção aos seus sonhos mais profundos. Isso não é apenas um sonho distante - é uma realidade ao seu alcance.</p>
+                <p class="text-base md:text-lg text-humanized opacity-80">A transformação que você tanto busca não está em um futuro distante ou em circunstâncias externas que você não controla. Ela começa dentro de você, na decisão silenciosa de hoje de dizer "chega" à apatia e "sim" à sua própria grandeza.</p>
+                <p class="text-base md:text-lg text-humanized opacity-80">Cada pensamento que você cultiva, cada hábito que você constrói, cada pequena vitória que você celebra - tudo isso são degraus na escada que leva à versão mais poderosa de si mesmo.</p>
+            </div>
+            <div class="image-box h-[380px] sm:h-[450px] md:h-[520px] w-full reveal-diag-right tilt-card">
+                <img src="./feliz.png" alt="Felicidade e realização" class="parallax-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. CHECKOUT FINAL -->
+    <section id="obra" class="px-5 md:px-6 bg-papiro fade-top fade-bottom">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center" style="position:relative;z-index:2;">
+            <div class="relative md:order-1 order-2 flex justify-center reveal-scale">
+                <div class="image-box h-[420px] sm:h-[520px] md:h-[650px] w-full transform -rotate-1 shadow-2xl float-slow" style="animation-duration: 8s;">
+                    <img src="./mockup-principal.jpg" alt="E-book Frequência Mental Poderosa">
+                </div>
+                <div class="absolute -bottom-8 -right-4 md:-bottom-10 md:-right-6 w-32 h-32 md:w-36 md:h-36 rounded-full flex flex-col items-center justify-center shadow-2xl border-4 md:border-8 border-black z-10 float-medium golden-guarantee" style="animation-delay:-1.5s;">
+                    <span class="text-3xl md:text-4xl font-bold serif leading-none">7</span>
+                    <span class="text-[8px] md:text-[9px] uppercase font-bold tracking-widest text-center mt-1">Dias de <br> Garantia</span>
+                </div>
+            </div>
+            <div id="comprar" class="space-y-8 md:space-y-10 md:order-2 order-1">
+                <h2 class="text-4xl md:text-7xl font-light serif leading-tight reveal-right">Frequência Mental Poderosa.</h2>
+                <h3 class="text-xl md:text-2xl serif italic opacity-80 -mt-4 reveal-right delay-100">O Despertar do Rugido Interno</h3>
+                <p class="text-base md:text-xl text-humanized opacity-80 reveal-up delay-200">O mapa definitivo para a sua transformação pessoal. Saia da apatia e desperte a autoridade natural que sempre esteve aí.</p>
+                <div class="space-y-6 reveal-up delay-300">
+                    <div class="golden-button-wrap">
+                        <a href="https://freqmentalchat.nexus-manual.com.br" target="_blank" rel="noopener noreferrer" class="w-full py-6 md:py-8 rounded-full font-bold text-lg md:text-xl uppercase tracking-widest transition-all shadow-2xl text-center btn-block btn-link golden-button">
+                            Despertar Meu Potencial
+                        </a>
+                    </div>
+                    <p class="text-center text-[9px] md:text-[10px] opacity-50 uppercase tracking-[0.3em]">Risco Zero • Acesso Vitalício • Purificação Mental</p>
+                    <div class="security-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L3 7v7c0 6 9 10 9 10s9-4 9-10V7l-9-5z"/></svg>
+                        <span>PAGAMENTO 100% SEGURO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-16 md:py-20 px-6 text-center opacity-40 bg-dark-1">
+        <div class="max-w-7xl mx-auto text-[10px] md:text-xs uppercase tracking-[0.4em]">
+            Frequência © 2026 • O despertar é uma escolha.
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        // ========== 1. INSERÇÃO DAS FRASES FILOSÓFICAS ==========
+        const frases = [
+            { 
+                containerId: 'banner-filos01',
+                texto: `"O homem corajoso não é aquele que não teme a morte, mas aquele que teme a desonra de uma vida não examinada. A morte é apenas um evento; a covardia é uma corrosão da alma." — Aristóteles`
+            },
+            { 
+                containerId: 'banner-filos02',
+                texto: `"A vida é um arco tensionado: é a resistência da corda contra a madeira que permite que a flecha voe." — Heráclito de Éfeso`
+            },
+            { 
+                containerId: 'banner-filos03',
+                texto: `"A verdadeira superação não está em sair da caverna, mas em ter a coragem de voltar a ela, com os olhos ardendo de luz, para libertar aqueles que ainda amam as sombras." — Platão`
+            },
+            { 
+                containerId: 'banner-filos04',
+                texto: `"É preciso ter o caos dentro de si para gerar uma estrela dançante. O desafio não é acabar com a desordem interior, mas organizá-la como quem compõe uma sinfonia com trovões." — Friedrich Nietzsche`
+            }
+        ];
+
+        frases.forEach(item => {
+            const container = document.getElementById(item.containerId);
+            if (container) {
+                if (!container.querySelector('.frase-filosofo')) {
+                    const fraseDiv = document.createElement('div');
+                    fraseDiv.className = 'frase-filosofo';
+                    fraseDiv.textContent = item.texto;
+                    container.appendChild(fraseDiv);
+                }
+            }
+        });
+
+        // ========== 2. MANTER AS FUNCIONALIDADES ORIGINAIS ==========
+        function fixH() { document.body.style.overflowX = 'hidden'; document.documentElement.style.overflowX = 'hidden'; }
+        window.addEventListener('resize', fixH); fixH();
+        const isMobile = 'ontouchstart' in window;
+        const revealEls = document.querySelectorAll('.reveal-up,.reveal-left,.reveal-right,.reveal-diag-left,.reveal-diag-right,.reveal-scale');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } });
+        }, { threshold: 0.12, rootMargin: "0px 0px -30px 0px" });
+        revealEls.forEach(el => revealObserver.observe(el));
+        if (!isMobile) {
+            const parallaxImages = document.querySelectorAll('.parallax-img');
+            function updateParallax() {
+                parallaxImages.forEach(img => {
+                    const box = img.closest('.image-box'); if (!box) return;
+                    const rect = box.getBoundingClientRect(); const vh = window.innerHeight;
+                    if (rect.bottom < 0 || rect.top > vh) return;
+                    const center = rect.top + rect.height / 2 - vh / 2;
+                    img.style.transform = `translateY(${Math.max(-12, Math.min(12, center * 0.04))}px)`;
+                });
+            }
+            window.addEventListener('scroll', updateParallax, { passive: true }); updateParallax();
+        }
+        if (!isMobile) {
+            const cards = document.querySelectorAll('.scroll-slide'); const offsets = [-14, 0, 14];
+            function updateCards() {
+                cards.forEach((card, i) => {
+                    const rect = card.getBoundingClientRect(); const vh = window.innerHeight;
+                    if (rect.bottom < 0 || rect.top > vh) return;
+                    const prog = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)));
+                    card.style.transform = `translateX(${offsets[i] * (1 - prog * (2 - prog))}px)`;
+                });
+            }
+            window.addEventListener('scroll', updateCards, { passive: true }); updateCards();
+        }
+        if (!isMobile) {
+            const blobs = document.querySelectorAll('.float-slow,.float-medium,.float-orbit');
+            window.addEventListener('scroll', () => { const sy = window.scrollY; blobs.forEach((b, i) => { b.style.marginTop = (sy * (i % 2 === 0 ? 0.04 : -0.025)) + 'px'; }); }, { passive: true });
+        }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const id = this.getAttribute('href'); if (!id || id === '#') return;
+                const target = document.querySelector(id);
+                if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' }); }
+            });
+        });
+        if (!isMobile) {
+            document.querySelectorAll('a[href*="freqmentalchat"],a[href*="pdf"]').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => { const r = btn.getBoundingClientRect(); btn.style.transform = `translate(${(e.clientX-r.left-r.width/2)*0.08}px,${(e.clientY-r.top-r.height/2)*0.08}px) scale(1.02)`; });
+                btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+            });
+        }
+    })();
+    </script>
+</body>
+</html>
