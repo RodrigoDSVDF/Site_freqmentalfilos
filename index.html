@@ -488,7 +488,7 @@
 </head>
 <body class="antialiased no-x-overflow bg-dark-1">
 
-    <!-- TOP BANNER (arco.png) -->
+    <!-- TOP BANNER (arco.webp) -->
     <div class="top-banner-container" id="banner-arco">
         <img src="arco.webp" alt="Arco - Frequência Mental">
     </div>
@@ -668,7 +668,6 @@
     <section class="section-imagine px-5 md:px-6 bg-dark-3 grain-overlay fade-top fade-bottom">
         <div class="section-banner-container" id="banner-filos04" style="position:relative;z-index:2;">
             <img src="filos04.webp" alt="Criativo Filos 04">
-            <!-- filos04 sem frase, conforme solicitado -->
         </div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center mt-8" style="position:relative;z-index:2;">
             <div class="space-y-7 reveal-left">
@@ -729,24 +728,22 @@
                 texto: `"O homem corajoso não é aquele que não teme a morte, mas aquele que teme a desonra de uma vida não examinada. A morte é apenas um evento; a covardia é uma corrosão da alma." — Aristóteles`
             },
             { 
+                containerId: 'banner-filos02',
+                texto: `"A vida é um arco tensionado: é a resistência da corda contra a madeira que permite que a flecha voe." — Heráclito de Éfeso`
+            },
+            { 
                 containerId: 'banner-filos03',
                 texto: `"A verdadeira superação não está em sair da caverna, mas em ter a coragem de voltar a ela, com os olhos ardendo de luz, para libertar aqueles que ainda amam as sombras." — Platão`
             },
             { 
                 containerId: 'banner-filos04',
                 texto: `"É preciso ter o caos dentro de si para gerar uma estrela dançante. O desafio não é acabar com a desordem interior, mas organizá-la como quem compõe uma sinfonia com trovões." — Friedrich Nietzsche`
-            },
-            {
-                containerId: 'banner-filos02',
-                texto: "A vida é um arco tensionado: é a resistência da corda contra a madeira que permite que a flecha voe." - Heráclito de Éfeso
             }
-            // filos04 não possui frase
         ];
 
         frases.forEach(item => {
             const container = document.getElementById(item.containerId);
             if (container) {
-                // Verifica se a frase já não foi inserida
                 if (!container.querySelector('.frase-filosofo')) {
                     const fraseDiv = document.createElement('div');
                     fraseDiv.className = 'frase-filosofo';
